@@ -76,7 +76,7 @@ export default class ConfirmationController {
 
   #fillSlots(sourceElement) {
     // transfer content from source element's data attributes to dialog slots, defined by config object.
-    for(const [slotName, _slotConfig] of Object.entries(this.#config.contentSlots)) {
+    for(const slotName of Object.keys(this.#config.contentSlots)) {
       const slotTarget = this.#slotTarget(slotName)
       const slotContent = this.#slotContent(slotName, sourceElement)
       if (slotTarget && slotContent) {
