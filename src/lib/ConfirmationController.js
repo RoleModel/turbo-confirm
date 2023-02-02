@@ -86,13 +86,12 @@ export default class ConfirmationController {
   }
 
   #clearSlots() {
-    const slots = []
-    for(const [slotName, _slotConfig] of Object.entries(this.#config.contentSlots)) {
-      slots.push(this.#slotTarget(slotName))
-    }
     // allow for hide animation to complete before removing content
     setTimeout(()=> {
-      slots.forEach(slot => slot.innerHTML = '')
+      for(const slotName of Object.keys(this.#config.contentSlots)) {
+        const slotTarget = this.#slotTarget(slotName)
+        if (slotTarget) slotTarget.innerHTML = ''
+      }
     }, this.#config.animationDuration)
   }
 

@@ -2,7 +2,7 @@
 
 Drop-in upgrade for rails `data-turbo-confirm` to support custom HTML dialogs and multiple content _slots_.
 
-## Installation
+### Installation
 
 ```Bash
 npm install @rolemodel/confirm
@@ -14,7 +14,7 @@ or
 yarn add @rolemodel/confirm
 ```
 
-## Usage
+### Usage
 
 In your applications JavaScript entrypoint file. (e.g.  _app/javascript/application.js_)
 
@@ -27,7 +27,7 @@ Turbo.setConfirmMethod(RoleModelConfirm.confirm)
 RoleModelConfirm.init()
 ```
 
-## Configuration
+### Configuration
 
 RoleModel confirm is entirely configurable.  Override default configuration by passing an object into `init()`.
 
@@ -55,7 +55,7 @@ const contentSlots = {
 RoleModelConfirm.init({contentSlots})
 ```
 
-### default configuration
+### Default Config
 
 ```JS
 {
@@ -75,4 +75,33 @@ RoleModelConfirm.init({contentSlots})
       }
     }
   }
+```
+
+### Example Template
+
+Based on default configuration, the following template is suitable.
+
+```HTML
+<html>
+  <head>
+    <title>RoleModel Turbo-Confirm</title>
+  </head>
+  <body>
+
+    <!-- Here is our dialog (not visible without a 'modal--active' class) -->
+    <div id="confirm" class="modal">
+      <div class="modal__backdrop confirm-cancel"></div>
+      <div class="modal__content">
+        <h3 id="confirm-title">Replaced by `data-turbo-confirm` text.</h3>
+        <div id="confirm-body">
+          <p>Replaced by `data-confirm-details` HTML.</p>
+        </div>
+        <div class="modal-actions">
+          <button class="confirm-cancel">Cancel</button>
+          <button id="confirm-accept">Yes, I'm Sure</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
 ```
