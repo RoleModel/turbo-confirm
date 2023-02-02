@@ -1,5 +1,6 @@
 {
   "name": "@rolemodel/confirm",
+  "type": "module",
   "version": "0.1.0",
   "description": "Dropin upgrade for Rails' data-turbo-confirm feature to support custom HTML dialogs.",
   "main": "src/index.js",
