@@ -5,13 +5,13 @@ Drop-in upgrade for rails `data-turbo-confirm` to support custom HTML dialogs an
 ### Installation
 
 ```Bash
-npm install @rolemodel/confirm
+npm install @rolemodel/turbo-confirm
 ```
 
 or
 
 ```Bash
-yarn add @rolemodel/confirm
+yarn add @rolemodel/turbo-confirm
 ```
 
 ### Usage
@@ -20,7 +20,7 @@ In your applications JavaScript entrypoint file. (e.g.  _app/javascript/applicat
 
 ```JS
 import {Turbo} from "@hotwired/turbo-rails"
-import RoleModelConfirm from "@rolemodel/confirm"
+import RoleModelConfirm from "@rolemodel/turbo-confirm"
 
 Turbo.setConfirmMethod(RoleModelConfirm.confirm)
 
