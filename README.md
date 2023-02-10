@@ -27,7 +27,7 @@ Turbo.setConfirmMethod(RoleModelConfirm.confirm)
 RoleModelConfirm.init()
 ```
 
-And then excersize it via button / link in an erb/slim template:
+And then exercise it via button / link in an erb/slim template:
 
 ```RUBY
   = button_to 'Delete ToDo', todo_path(todo),
@@ -38,8 +38,6 @@ And then excersize it via button / link in an erb/slim template:
       confirm_details: tag.h2('This action cannot be undone'),
     }
 ```
-
-HTML
 
 ### Configuration
 
