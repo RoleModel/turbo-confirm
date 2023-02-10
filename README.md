@@ -27,6 +27,20 @@ Turbo.setConfirmMethod(RoleModelConfirm.confirm)
 RoleModelConfirm.init()
 ```
 
+And then excersize it via button / link in an erb/slim template:
+
+```RUBY
+  = button_to 'Delete ToDo', todo_path(todo),
+    class: 'btn btn--danger',
+    method: :delete,
+    data: { \
+      turbo_confirm: 'Are you sure?',
+      confirm_details: tag.h2('This action cannot be undone'),
+    }
+```
+
+HTML
+
 ### Configuration
 
 RoleModel confirm is entirely configurable.  Override default configuration by passing an object into `init()`.
