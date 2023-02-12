@@ -27,7 +27,7 @@ Turbo.setConfirmMethod(RoleModelConfirm.confirm)
 RoleModelConfirm.init()
 ```
 
-And then exercise it via button / link in an erb/slim template:
+And then exercise it via `button_to` (example shown in [slim](https://github.com/slim-template/slim) templating syntax)
 
 ```RUBY
   = button_to 'Delete ToDo', todo_path(todo),

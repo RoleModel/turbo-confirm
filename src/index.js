@@ -4,7 +4,7 @@ import ConfirmationController from './lib/ConfirmationController.js'
 const confirm = (_message, _formElement, submitter) => {
   const confirmationResponse = dispatch('confirm', submitter)
 
-  dispatch('after-confrim', submitter, {detail: confirmationResponse})
+  dispatch('after-confirm', submitter, {detail: confirmationResponse})
   return confirmationResponse
 }
 
