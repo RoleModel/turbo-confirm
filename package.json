@@ -31,7 +31,6 @@
   },
   "homepage": "https://github.com/RoleModel/turbo-confirm#readme",
   "devDependencies": {
-    "babel-jest": "^29.5.0",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0"
   }

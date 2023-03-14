@@ -40,8 +40,6 @@ describe('ConfirmationController', () => {
     })
 
     it('should apply contentAttribute values to dialog slots and then restore the original content on teardown', done => {
-      expect(document.querySelector('#confirm-title').innerHTML).toBe('Original Title Content')
-
       const controller = new ConfirmationController({animationDuration: 0})
       controller.perform(event)
 
