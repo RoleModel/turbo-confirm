@@ -6,6 +6,7 @@ export default class ConfirmationController {
     acceptSelector: '#confirm-accept',
     denySelector: '.confirm-cancel',
     animationDuration: 300,
+    showConfirmCallback: null,
     contentSlots: {
       title: {
         contentAttribute: 'turbo-confirm',
@@ -64,6 +65,10 @@ export default class ConfirmationController {
   #showConfirm(element) {
     this.#fillSlots(element)
     this.dialogTarget.classList.add(this.#config.activeClass)
+    if (this.#config.showConfirmCallback) {
+      this.#config.showConfirmCallback(this.dialogTarget)
+    }
+
     this.#setupListeners()
   }
 
