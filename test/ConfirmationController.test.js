@@ -13,7 +13,7 @@ describe('ConfirmationController', () => {
             <p>a paragraph inside #confirm-body</p>
           </div>
           <div class="modal-actions">
-            <button class="confirm-cancel">Cancel</button>
+            <button id="cancel-button" class="confirm-cancel">Cancel</button>
             <button id="confirm-accept">Yes, I'm Sure</button>
           </div>
         </div>
@@ -29,23 +29,25 @@ describe('ConfirmationController', () => {
 
   describe('setup & teardown of the dialog', () => {
     it('should add and then remove the activeClass from the dialog', () => {
+      const cancelButton = document.getElementById('cancel-button')
       const controller = new ConfirmationController()
       controller.perform(event)
 
       expect(document.querySelector('#confirm').classList.contains('modal--active')).toBe(true)
 
-      controller.deny()
+      cancelButton.click()
 
       expect(document.querySelector('#confirm').classList.contains('modal--active')).toBe(false)
     })
 
     it('should apply contentAttribute values to dialog slots and then restore the original content on teardown', done => {
+      const cancelButton = document.getElementById('cancel-button')
       const controller = new ConfirmationController({animationDuration: 0})
       controller.perform(event)
 
       expect(document.querySelector('#confirm-title').innerHTML).toBe('test content')
 
-      controller.deny()
+      cancelButton.click()
 
       setTimeout(() => {
         // next tick
@@ -53,6 +55,24 @@ describe('ConfirmationController', () => {
         done()
       }, 0)
 
+    })
+  })
+
+  describe('accepting the confirmation', () => {
+    it('clicking accept re-triggers the original submitter', () => {
+      const testState = { success: false }
+      const acceptButton = document.getElementById('confirm-accept')
+      const originalSubmitter = document.getElementById('trigger')
+      originalSubmitter.onclick = () => { testState.success = true }
+
+      const controller = new ConfirmationController()
+      controller.perform(event)
+
+      expect(testState.success).toBe(false)
+
+      acceptButton.click()
+
+      expect(testState.success).toBe(true)
     })
   })
 })
