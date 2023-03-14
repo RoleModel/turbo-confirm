@@ -1,5 +1,6 @@
 export default class ConfirmationController {
   #originalSubmitter
+  #initialContent
   #config = {
     dialogSelector: '#confirm',
     activeClass: 'modal--active',
@@ -15,6 +16,10 @@ export default class ConfirmationController {
       body: {
         contentAttribute: 'confirm-details',
         slotSelector: '#confirm-body'
+      },
+      acceptText: {
+        contentAttribute: 'confirm-button',
+        slotSelector: '#confirm-accept'
       }
     }
   }
@@ -63,6 +68,9 @@ export default class ConfirmationController {
   }
 
   #showConfirm(element) {
+    // if this is the first time, store the HTML of the dialog.
+    // We'll use this to restore the dialog to its original state on teardown.
+    if (!this.#initialContent) this.#initialContent = this.dialogTarget.innerHTML
     this.#fillSlots(element)
     this.dialogTarget.classList.add(this.#config.activeClass)
     if (this.#config.showConfirmCallback) {
@@ -76,7 +84,7 @@ export default class ConfirmationController {
     this.dialogTarget.classList.remove(this.#config.activeClass)
     this.#originalSubmitter = undefined
     this.#teardownListeners()
-    this.#clearSlots()
+    this.#restoreDialog()
   }
 
   #fillSlots(sourceElement) {
@@ -90,13 +98,10 @@ export default class ConfirmationController {
     }
   }
 
-  #clearSlots() {
+  #restoreDialog() {
     // allow for hide animation to complete before removing content
     setTimeout(()=> {
-      for(const slotName of Object.keys(this.#config.contentSlots)) {
-        const slotTarget = this.#slotTarget(slotName)
-        if (slotTarget) slotTarget.innerHTML = ''
-      }
+      this.dialogTarget.innerHTML = this.#initialContent
     }, this.#config.animationDuration)
   }
 
