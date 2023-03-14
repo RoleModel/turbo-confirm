@@ -8,7 +8,7 @@
     "lib": "src/lib"
   },
   "scripts": {
-    "test": "jest"
+    "test": "node --experimental-vm-modules $(yarn bin jest)"
   },
   "repository": {
     "type": "git",
@@ -29,5 +29,10 @@
   "bugs": {
     "url": "https://github.com/RoleModel/turbo-confirm/issues"
   },
-  "homepage": "https://github.com/RoleModel/turbo-confirm#readme"
+  "homepage": "https://github.com/RoleModel/turbo-confirm#readme",
+  "devDependencies": {
+    "babel-jest": "^29.5.0",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0"
+  }
 }
