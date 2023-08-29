@@ -1,6 +1,13 @@
 # RoleModel Confirm
 
-Drop-in upgrade for rails `data-turbo-confirm` to support custom HTML dialogs and multiple content _slots_.
+A drop-in upgrade for Rails `data-turbo-confirm`.
+
+[![release package](https://github.com/RoleModel/turbo-confirm/actions/workflows/release-package.yml/badge.svg)](https://github.com/RoleModel/turbo-confirm/actions/workflows/release-package.yml)
+
+
+![title image](title_image.png)
+
+Leverage the convienience of _Turbo-Rails_, but ditch the native `confirm()` dialog.
 
 ### Installation
 
@@ -16,7 +23,7 @@ yarn add @rolemodel/turbo-confirm
 
 ### Usage
 
-In your applications JavaScript entrypoint file. (e.g.  _app/javascript/application.js_)
+In your applications JavaScript entrypoint file. (_app/javascript/application.js_)
 
 ```JS
 import {Turbo} from "@hotwired/turbo-rails"
@@ -51,13 +58,17 @@ or `link_to`
     }
 ```
 
-Note: @rolemodel/turbo-confirm supports passing additional content to customize the confirmation dialog via specially named data attributes on the confirmation trigger.  We refer to these additional customization points as 'contentSlots' and the default configuration defines 3 (title, body, acceptText).  ContentSlots are completely optional.  Just supply your dialog HTML with default content for any contentSlots that you don't plan to define on every confirmation trigger.
+**Note:** `@rolemodel/turbo-confirm` supports additional custom content via specially named data attributes on the confirmation trigger.
+
+We refer to these additional customization points as 'contentSlots' and the default configuration defines 3 (title, body, acceptText).
+
+ContentSlots are completely optional.  Just supply your dialog HTML with default content for any contentSlots that you don't plan to define on every confirmation trigger.
 
 ### Configuration
 
-@rolemodel/turbo-confirm is entirely configurable.  Override default configuration by passing an object into `init()`.
+`@rolemodel/turbo-confirm` is entirely configurable.  Override default configuration by passing an object into `init()`.
 
-(e.g.  _app/javascript/application.js_)
+(_app/javascript/application.js_)
 
 ```JS
 
@@ -129,27 +140,19 @@ Obviously, the `slotSelector` of any contentSlots you configure will need to ref
 Based on default configuration, the following template is suitable.
 
 ```HTML
-<html>
-  <head>
-    <title>RoleModel Turbo-Confirm</title>
-  </head>
-  <body>
-
-    <!-- Here is our dialog (not visible without a 'modal--active' class) -->
-    <div id="confirm" class="modal">
-      <div class="modal__backdrop confirm-cancel"></div>
-      <div class="modal__content">
-        <h3 id="confirm-title">Replaced by `data-turbo-confirm` attribute</h3>
-        <div id="confirm-body">
-          <p>Default confirm message.</p>
-          <p>Optionally replaced by `data-confirm-details` attribute</p>
-        </div>
-        <div class="modal-actions">
-          <button class="confirm-cancel">Cancel</button>
-          <button id="confirm-accept">Yes, I'm Sure</button>
-        </div>
+  <!-- Here is our dialog (not visible without a 'modal--active' class) -->
+  <div id="confirm" class="modal">
+    <div class="modal__backdrop confirm-cancel"></div>
+    <div class="modal__content">
+      <h3 id="confirm-title">Replaced by `data-turbo-confirm` attribute</h3>
+      <div id="confirm-body">
+        <p>Default confirm message.</p>
+        <p>Optionally replaced by `data-confirm-details` attribute</p>
+      </div>
+      <div class="modal-actions">
+        <button class="confirm-cancel">Cancel</button>
+        <button id="confirm-accept">Yes, I'm Sure</button>
       </div>
     </div>
-  </body>
-</html>
+  </div>
 ```
