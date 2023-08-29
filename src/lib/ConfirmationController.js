@@ -43,7 +43,7 @@ export default class ConfirmationController {
     // and store a reference to the original submitter
     this.#originalSubmitter = event.target
     // event.target might be an icon or other element nested inside the element we want.
-    this.#showConfirm(event.target.closest(`[data-turbo-confirm]`))
+    this.#showConfirm(this.#clickTarget(event))
   }
 
   accept() {
@@ -103,6 +103,14 @@ export default class ConfirmationController {
     setTimeout(()=> {
       this.dialogTarget.innerHTML = this.#initialContent
     }, this.#config.animationDuration)
+  }
+
+  #clickTarget({currentTarget}) {
+    if (currentTarget === document) {
+      return currentTarget.activeElement.closest(`[data-turbo-confirm]`)
+    } else {
+      return currentTarget.closest(`[data-turbo-confirm]`)
+    }
   }
 
   #setupListeners() {
