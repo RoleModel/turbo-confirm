@@ -39,6 +39,18 @@ And then exercise it via `button_to` (example shown in [slim](https://github.com
     }
 ```
 
+or `link_to`
+
+```RUBY
+  = link_to 'Delete ToDo', todo_path(todo),
+    class: 'btn btn--danger',
+    data: { \
+      turbo_method: :delete,
+      turbo_confirm: 'Are you sure?',
+      confirm_details: tag.h2('This action cannot be undone'),
+    }
+```
+
 Note: @rolemodel/turbo-confirm supports passing additional content to customize the confirmation dialog via specially named data attributes on the confirmation trigger.  We refer to these additional customization points as 'contentSlots' and the default configuration defines 3 (title, body, acceptText).  ContentSlots are completely optional.  Just supply your dialog HTML with default content for any contentSlots that you don't plan to define on every confirmation trigger.
 
 ### Configuration

@@ -40,10 +40,10 @@ export default class ConfirmationController {
     if (this.#originalSubmitter) return this.#teardown()
     // Otherwise, we need to prevent the default action
     event.preventDefault()
-    // and store a reference to the original submitter
-    this.#originalSubmitter = event.target
-    // event.target might be an icon or other element nested inside the element we want.
-    this.#showConfirm(event.target.closest(`[data-turbo-confirm]`))
+    // and store a reference to the clicked element
+    this.#originalSubmitter = this.#clickTarget(event)
+    // and show the confirmation dialog
+    this.#showConfirm()
   }
 
   accept() {
@@ -59,31 +59,32 @@ export default class ConfirmationController {
     return document.querySelector(this.#config.dialogSelector)
   }
 
-  #slotTarget(slotName) {
-    return document.querySelector(this.#config.contentSlots[slotName].slotSelector)
-  }
-
-  #slotContent(slotName, element) {
-    return element.getAttribute(`data-${this.#config.contentSlots[slotName].contentAttribute}`)
-  }
-
-  #showConfirm(element) {
+  #showConfirm() {
     // if this is the first time, store the HTML of the dialog.
     // We'll use this to restore the dialog to its original state on teardown.
     if (!this.#initialContent) this.#initialContent = this.dialogTarget.innerHTML
-    this.#fillSlots(element)
+
+    this.#fillSlots(this.#originalSubmitter)
     this.dialogTarget.classList.add(this.#config.activeClass)
+
+    // showConfirmCallback was added to support shoelace modal dialogs, which require a function to open.
+    // However, it also provides a hook for executing any custom code you like.
     if (this.#config.showConfirmCallback) {
       this.#config.showConfirmCallback(this.dialogTarget)
     }
 
+    // setup listeners for the confirm and cancel buttons in the dialog
     this.#setupListeners()
   }
 
   #teardown() {
+    // hide the dialog
     this.dialogTarget.classList.remove(this.#config.activeClass)
+    // remove the reference to the clicked element
     this.#originalSubmitter = undefined
+    // remove listeners for the confirm and cancel buttons in the dialog
     this.#teardownListeners()
+    // restore the dialog to its original state
     this.#restoreDialog()
   }
 
@@ -98,11 +99,29 @@ export default class ConfirmationController {
     }
   }
 
+  #slotTarget(slotName) {
+    return document.querySelector(this.#config.contentSlots[slotName].slotSelector)
+  }
+
+  #slotContent(slotName, element) {
+    return element.getAttribute(`data-${this.#config.contentSlots[slotName].contentAttribute}`)
+  }
+
   #restoreDialog() {
     // allow for hide animation to complete before removing content
     setTimeout(()=> {
       this.dialogTarget.innerHTML = this.#initialContent
     }, this.#config.animationDuration)
+  }
+
+  #clickTarget({currentTarget}) {
+    // Turbo listens for link clicks on the document.
+    if (currentTarget === document) {
+      // in this case, activeElement is the link that was clicked
+      return currentTarget.activeElement.closest(`[data-turbo-confirm]`)
+    } else {
+      return currentTarget.closest(`[data-turbo-confirm]`)
+    }
   }
 
   #setupListeners() {
