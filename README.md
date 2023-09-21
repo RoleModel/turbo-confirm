@@ -7,7 +7,7 @@ A drop-in upgrade for Rails `data-turbo-confirm`.
 
 ![title image](title_image.png)
 
-Leverage the convienience of _Turbo-Rails_, but ditch the native `confirm()` dialog.
+Leverage the convenience of _Turbo-Rails_, but ditch the native `confirm()` dialog.
 
 ### Installation
 
@@ -23,10 +23,10 @@ yarn add @rolemodel/turbo-confirm
 
 ### Usage
 
-In your applications JavaScript entrypoint file. (_app/javascript/application.js_)
+In your application's JavaScript entry point file. (_app/javascript/application.js_)
 
 ```JS
-import {Turbo} from "@hotwired/turbo-rails"
+import { Turbo } from "@hotwired/turbo-rails"
 import RoleModelConfirm from "@rolemodel/turbo-confirm"
 
 Turbo.setConfirmMethod(RoleModelConfirm.confirm)
@@ -60,9 +60,9 @@ or `link_to`
 
 **Note:** `@rolemodel/turbo-confirm` supports additional custom content via specially named data attributes on the confirmation trigger.
 
-We refer to these additional customization points as 'contentSlots' and the default configuration defines 3 (title, body, acceptText).
+We refer to these additional customization points as 'contentSlots', and the default configuration defines three: `title`, `body`, and `acceptText`.
 
-ContentSlots are completely optional.  Just supply your dialog HTML with default content for any contentSlots that you don't plan to define on every confirmation trigger.
+`contentSlots` is completely optional.  Just supply your dialog HTML with default content for any `contentSlots` you don't plan to define on every confirmation trigger.
 
 ### Configuration
 
@@ -89,7 +89,7 @@ const contentSlots = {
   }
 }
 
-RoleModelConfirm.init({contentSlots})
+RoleModelConfirm.init({ contentSlots })
 ```
 
 Based on that custom configuration, an example `button_to` trigger might look like this:
@@ -106,7 +106,7 @@ Based on that custom configuration, an example `button_to` trigger might look li
     }
 ```
 
-Obviously, the `slotSelector` of any contentSlots you configure will need to reference actual DOM elements that exist in your confirmation dialog template.
+Obviously, the `slotSelector` of any contentSlots you configure will need to reference actual DOM elements in your confirmation dialog template.
 
 ### Default Config
 
@@ -137,7 +137,7 @@ Obviously, the `slotSelector` of any contentSlots you configure will need to ref
 
 ### Example Template
 
-Based on default configuration, the following template is suitable.
+Based on the default configuration, the following template is suitable.
 
 ```HTML
   <!-- Here is our dialog (not visible without a 'modal--active' class) -->
