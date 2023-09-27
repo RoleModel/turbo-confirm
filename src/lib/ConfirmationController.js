@@ -114,14 +114,12 @@ export default class ConfirmationController {
     }, this.#config.animationDuration)
   }
 
-  #clickTarget({currentTarget}) {
-    // Turbo listens for link clicks on the document.
-    if (currentTarget === document) {
-      // in this case, activeElement is the link that was clicked
-      return currentTarget.activeElement.closest(`[data-turbo-confirm]`)
-    } else {
-      return currentTarget.closest(`[data-turbo-confirm]`)
-    }
+  #clickTarget({target}) {
+    // in the case of a turbo link intercept, the target is the document.
+    // Form submissions still have the original submitter as the target.
+    const element = target.activeElement ?? target
+
+    return element.closest('[data-turbo-confirm]')
   }
 
   #setupListeners() {
