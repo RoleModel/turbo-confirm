@@ -60,11 +60,11 @@ export default class ConfirmationController {
   }
 
   get acceptButtons() {
-    this.dialogTarget.querySelectorAll(this.#config.acceptSelector)
+    return this.dialogTarget.querySelectorAll(this.#config.acceptSelector)
   }
 
   get denyButtons() {
-    this.dialogTarget.querySelectorAll(this.#config.denySelector)
+    return this.dialogTarget.querySelectorAll(this.#config.denySelector)
   }
 
   #showConfirm() {
@@ -72,12 +72,6 @@ export default class ConfirmationController {
     // We'll use this to restore the dialog to its original state on teardown.
     if (!this.#initialContent) {
       this.#initialContent = this.dialogTarget.innerHTML
-
-      // add a listener for the cancel event on the dialog, to fully deny the confirmation
-      this.dialogTarget.addEventListener('cancel', (event) => {
-        event.preventDefault();
-        this.denyButtons.forEach(element => element.click())
-      });
     }
 
     this.#fillSlots(this.#originalSubmitter)
@@ -141,10 +135,12 @@ export default class ConfirmationController {
   #setupListeners() {
     this.acceptButtons.forEach(element => element.addEventListener('click', this.accept))
     this.denyButtons.forEach(element => element.addEventListener('click', this.deny))
+    this.dialogTarget.addEventListener('cancel', this.deny)
   }
 
   #teardownListeners() {
     this.acceptButtons.forEach(element => element.removeEventListener('click', this.accept))
     this.denyButtons.forEach(element => element.removeEventListener('click', this.deny))
+    this.dialogTarget.removeEventListener('cancel', this.deny)
   }
 }
