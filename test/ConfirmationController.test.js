@@ -76,4 +76,20 @@ describe('ConfirmationController', () => {
       expect(testState.success).toBe(true)
     })
   })
+
+  describe('denying the confirmation', () => {
+
+    it('with the dialog cancel event', () => {
+      const controller = new ConfirmationController()
+      const dialog = document.getElementById('confirm')
+      controller.perform(event)
+
+      expect(dialog.classList.contains('modal--active')).toBe(true)
+
+      dialog.dispatchEvent(new CustomEvent('cancel'))
+
+      expect(dialog.classList.contains('modal--active')).toBe(false)
+    })
+
+  })
 })

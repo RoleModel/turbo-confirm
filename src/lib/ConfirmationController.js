@@ -59,10 +59,20 @@ export default class ConfirmationController {
     return document.querySelector(this.#config.dialogSelector)
   }
 
+  get acceptButtons() {
+    return this.dialogTarget.querySelectorAll(this.#config.acceptSelector)
+  }
+
+  get denyButtons() {
+    return this.dialogTarget.querySelectorAll(this.#config.denySelector)
+  }
+
   #showConfirm() {
     // if this is the first time, store the HTML of the dialog.
     // We'll use this to restore the dialog to its original state on teardown.
-    if (!this.#initialContent) this.#initialContent = this.dialogTarget.innerHTML
+    if (!this.#initialContent) {
+      this.#initialContent = this.dialogTarget.innerHTML
+    }
 
     this.#fillSlots(this.#originalSubmitter)
     this.dialogTarget.classList.add(this.#config.activeClass)
@@ -123,12 +133,14 @@ export default class ConfirmationController {
   }
 
   #setupListeners() {
-    this.dialogTarget.querySelectorAll(this.#config.acceptSelector).forEach(element => element.addEventListener('click', this.accept))
-    this.dialogTarget.querySelectorAll(this.#config.denySelector).forEach(element => element.addEventListener('click', this.deny))
+    this.acceptButtons.forEach(element => element.addEventListener('click', this.accept))
+    this.denyButtons.forEach(element => element.addEventListener('click', this.deny))
+    this.dialogTarget.addEventListener('cancel', this.deny)
   }
 
   #teardownListeners() {
-    this.dialogTarget.querySelectorAll(this.#config.acceptSelector).forEach(element => element.removeEventListener('click', this.accept))
-    this.dialogTarget.querySelectorAll(this.#config.denySelector).forEach(element => element.removeEventListener('click', this.deny))
+    this.acceptButtons.forEach(element => element.removeEventListener('click', this.accept))
+    this.denyButtons.forEach(element => element.removeEventListener('click', this.deny))
+    this.dialogTarget.removeEventListener('cancel', this.deny)
   }
 }
