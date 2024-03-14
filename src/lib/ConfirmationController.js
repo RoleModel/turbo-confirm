@@ -1,3 +1,5 @@
+import { dispatch } from './utils.js'
+
 export default class ConfirmationController {
   #originalSubmitter
   #initialContent
@@ -47,12 +49,22 @@ export default class ConfirmationController {
   }
 
   accept() {
-    // re-trigger the original action
-    this.#originalSubmitter.click()
+    const submitter = this.#originalSubmitter
+    this.#teardown()
+
+    if (submitter.getAttribute('data-confirm-click') === 'false') {
+      dispatch('confirm-accept', submitter, {})
+    } else {
+      // re-trigger the original action
+      submitter.click()
+    }
   }
 
   deny() {
+    const submitter = this.#originalSubmitter
     this.#teardown()
+
+    dispatch('confirm-deny', submitter, {})
   }
 
   get dialogTarget() {
