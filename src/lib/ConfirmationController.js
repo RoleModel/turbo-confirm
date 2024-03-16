@@ -1,5 +1,5 @@
 export default class ConfirmationController {
-  #originalSubmitter
+  #resolve
   #initialContent
   #config = {
     dialogSelector: '#confirm',
@@ -8,6 +8,7 @@ export default class ConfirmationController {
     denySelector: '.confirm-cancel',
     animationDuration: 300,
     showConfirmCallback: null,
+    messageSlotTarget: 'title',
     contentSlots: {
       title: {
         contentAttribute: 'turbo-confirm',
@@ -34,21 +35,17 @@ export default class ConfirmationController {
     this.deny = this.deny.bind(this)
   }
 
-  perform(event) {
-    // If present, the confirmation dialog was already accepted.
-    // We just need to clean up and the original action will proceed as normal.
-    if (this.#originalSubmitter) return this.#teardown()
-    // Otherwise, we need to prevent the default action
-    event.preventDefault()
-    // and store a reference to the clicked element
-    this.#originalSubmitter = this.#clickTarget(event)
-    // and show the confirmation dialog
-    this.#showConfirm()
+  perform(message, submitter) {
+    // Should we handle the reject case as well? That will force an async caller to catch the error.
+    const promise = new Promise((resolve) => this.#resolve = resolve.bind(this, true))
+    this.#showConfirm(message, submitter)
+
+    return promise
   }
 
   accept() {
-    // re-trigger the original action
-    this.#originalSubmitter.click()
+    this.#resolve()
+    this.#teardown()
   }
 
   deny() {
@@ -67,18 +64,25 @@ export default class ConfirmationController {
     return this.dialogTarget.querySelectorAll(this.#config.denySelector)
   }
 
-  #showConfirm() {
+  #showConfirm(message, submitter) {
     // if this is the first time, store the HTML of the dialog.
     // We'll use this to restore the dialog to its original state on teardown.
     if (!this.#initialContent) {
       this.#initialContent = this.dialogTarget.innerHTML
     }
 
-    this.#fillSlots(this.#originalSubmitter)
+    // TurboConfirm can be triggered manually with an optional message, or by Turbo via form submission.
+    if (submitter) {
+      this.#fillSlots(this.#clickTarget(submitter))
+    } else if (message) {
+      this.#slotTarget(this.#config.messageSlotTarget).innerHTML = message
+    }
+
+    // toggle activeClass to show the dialog
     this.dialogTarget.classList.add(this.#config.activeClass)
 
-    // showConfirmCallback was added to support shoelace modal dialogs, which require a function to open.
-    // However, it also provides a hook for executing any custom code you like.
+    // showConfirmCallback was added to support the dialog element, which require JavaScript to open.
+    // However, it also provides a hook for executing any custom code you like on modal show.
     if (this.#config.showConfirmCallback) {
       this.#config.showConfirmCallback(this.dialogTarget)
     }
@@ -88,10 +92,10 @@ export default class ConfirmationController {
   }
 
   #teardown() {
+    // clear the promise resolver
+    this.#resolve = null
     // hide the dialog
     this.dialogTarget.classList.remove(this.#config.activeClass)
-    // remove the reference to the clicked element
-    this.#originalSubmitter = undefined
     // remove listeners for the confirm and cancel buttons in the dialog
     this.#teardownListeners()
     // restore the dialog to its original state
@@ -124,7 +128,7 @@ export default class ConfirmationController {
     }, this.#config.animationDuration)
   }
 
-  #clickTarget({target}) {
+  #clickTarget(target) {
     // in the case of a turbo link intercept, the target is the document.
     // Form submissions still have the original submitter as the target.
     const element = target.activeElement ?? target

@@ -156,3 +156,17 @@ Based on the default configuration, the following template is suitable.
     </div>
   </div>
 ```
+
+### Manual Usage
+
+Though `@rolemodel/turbo-confirm` was primarily designed to work as Turbo/Rails' confirmation interface, it may also be invoked directly by application code.
+
+e.g.
+
+```JS
+import RM from "@rolemodel/turbo-confirm"
+
+RM.confirm('Are you sure?').then(() => { /* proceed */ })
+```
+
+TODO: add direct use documentation & an example Stimulus Controller. Don't forget to document accept/reject events.

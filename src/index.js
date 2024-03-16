@@ -1,16 +1,22 @@
 import {dispatch} from './lib/utils.js'
 import ConfirmationController from './lib/ConfirmationController.js'
 
-const confirm = (_message, _formElement, submitter) => {
-  const confirmationResponse = dispatch('confirm', submitter)
+const confirm = async (message, _formElement, submitter) => {
+  if (!window._TurboConfirm) init()
 
-  dispatch('after-confirm', submitter, {detail: confirmationResponse})
+  const confirmationResponse = await window._TurboConfirm.perform(message, submitter)
+
+  if (confirmationResponse) {
+    dispatch('confirm-accept', submitter)
+  } else {
+    dispatch('confirm-reject', submitter)
+  }
+
   return confirmationResponse
 }
 
 const init = (options) => {
-  const controller = new ConfirmationController(options)
-  document.addEventListener('rms:confirm', (event) => controller.perform(event))
+  window._TurboConfirm = new ConfirmationController(options)
 }
 
 export default {init, confirm, dispatch}
