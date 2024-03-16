@@ -1,14 +1,14 @@
 {
   "name": "@rolemodel/turbo-confirm",
   "type": "module",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "description": "Drop-in upgrade for Rails' data-turbo-confirm feature to support custom HTML dialogs.",
   "main": "src/index.js",
   "directories": {
     "lib": "src/lib"
   },
   "scripts": {
-    "test": "node --experimental-vm-modules $(yarn bin jest)"
+    "test": "npx playwright test"
   },
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/RoleModel/turbo-confirm#readme",
   "devDependencies": {
-    "jest": "^29.5.0",
-    "jest-environment-jsdom": "^29.5.0"
+    "@playwright/test": "^1.42.1",
+    "@types/node": "^20.11.30"
   }
 }

@@ -1,0 +1,10 @@
+.card-padded.todo-card data-testid=(dom_id todo)
+  = link_to todo.title, edit_todo_path(todo), data: { turbo_frame: 'modal' }
+  = button_to todo_path(todo), method: :delete, class: 'btn btn-delete btn--icon',
+    data: { \
+      turbo_confirm: 'Are you sure you want to delete this todo?',
+      confirm_details: simple_format(todo.body),
+      confirm_button: 'Delete ToDo',
+    } do
+    = icon('delete')
+      | Delete

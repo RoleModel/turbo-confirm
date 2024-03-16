@@ -1,128 +1,193 @@
-# RoleModel Confirm
+# Turbo Confirm
+
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+  <img src="https://github.com/RoleModel/turbo-confirm/actions/workflows/playwright.yml/badge.svg" alt="CI">
+  <img src="https://github.com/RoleModel/turbo-confirm/actions/workflows/release-package.yml/badge.svg" alt="Release Package">
+  <img src="https://img.shields.io/npm/dw/@rolemodel/turbo-confirm?label=npm" alt="npm">
+</div>
 
 A drop-in upgrade for Rails `data-turbo-confirm`.
-
-[![release package](https://github.com/RoleModel/turbo-confirm/actions/workflows/release-package.yml/badge.svg)](https://github.com/RoleModel/turbo-confirm/actions/workflows/release-package.yml)
-
 
 ![title image](title_image.png)
 
 Leverage the convenience of _Turbo-Rails_, but ditch the native `confirm()` dialog.
 
-### Installation
+## Installation
 
-```Bash
+```bash
 npm install @rolemodel/turbo-confirm
 ```
 
 or
 
-```Bash
+```bash
 yarn add @rolemodel/turbo-confirm
 ```
 
-### Usage
+## Setup
 
-In your application's JavaScript entry point file. (_app/javascript/application.js_)
+In your application's JavaScript entry point file. (usually _app/javascript/application.js_)
 
-```JS
-import { Turbo } from "@hotwired/turbo-rails"
-import RoleModelConfirm from "@rolemodel/turbo-confirm"
+```js
+import "@hotwired/turbo-rails"
+import TC from "@rolemodel/turbo-confirm"
 
-Turbo.setConfirmMethod(RoleModelConfirm.confirm)
-
-RoleModelConfirm.init()
+TC.start()
 ```
 
-And then exercise it via `button_to` (example shown in [slim](https://github.com/slim-template/slim) templating syntax)
+**note:** `@hotwired/turbo-rails` must be imported prior to calling the `start` function. This is so **Turbo-Confirm** can coordinate with Turbo regarding confirmation handling. The `start` function is also where you may override default behavior by passing a configuration object. See [configuration docs](#configuration) for available options and their default values.
 
-```RUBY
+## Usage
+
+Turbo's confirmation interface is exercised most commonly via `button_to` (example shown in [slim] templating syntax)
+
+```ruby
   = button_to 'Delete ToDo', todo_path(todo),
     class: 'btn btn--danger',
     method: :delete,
-    data: { \
-      turbo_confirm: 'Are you sure?',
-      confirm_details: tag.h2('This action cannot be undone'),
-    }
+    data: { turbo_confirm: 'Are you sure?' }
 ```
 
-or `link_to`
+or `link_to` with a `data-turbo-method` attribute.
 
-```RUBY
+```ruby
   = link_to 'Delete ToDo', todo_path(todo),
     class: 'btn btn--danger',
     data: { \
       turbo_method: :delete,
       turbo_confirm: 'Are you sure?',
-      confirm_details: tag.h2('This action cannot be undone'),
     }
 ```
 
-**Note:** `@rolemodel/turbo-confirm` supports additional custom content via specially named data attributes on the confirmation trigger.
+### Customizing more than just a message
 
-We refer to these additional customization points as 'contentSlots', and the default configuration defines three: `title`, `body`, and `acceptText`.
+**Turbo-Confirm** supports other custom content beyond a simple message, by setting additional data attributes on the confirmation trigger. Henceforth referred to as _contentSlots_, this feature is both infinitely configurable and completely optional. Out of the box **Turbo-Confirm** supports two:
 
-`contentSlots` is completely optional.  Just supply your dialog HTML with default content for any `contentSlots` you don't plan to define on every confirmation trigger.
+- **body** activated by a `data-confirm-details` attribute on the confirmation trigger. The attribute's value will be assigned to the element matching the `#confirm-body` selector.
+- **acceptText** activated by a `data-confirm-button` attribute on the confirmation trigger. The attribute's value will be assigned to the element matching the `#confirm-accept` selector (same as the default value of the `acceptSelector` configuration property)
 
-### Configuration
+example usage of default _contentSlots_ via `button_to` in [slim] templating syntax:
 
-`@rolemodel/turbo-confirm` is entirely configurable.  Override default configuration by passing an object into `init()`.
+```ruby
+  = button_to 'Delete ToDo', todo_path(todo),
+    method: :delete,
+    data: { \
+      turbo_confirm: 'The following ToDo will be permanently deleted.',
+      confirm_details: simple_format(todo.content),
+      confirm_button: 'Delete ToDo',
+    }
+```
 
-(_app/javascript/application.js_)
+**note:** It's recommended that you have sensable default content already populating each of your configured _contentSlots_ within your app's confirmation dialog template. Such that every confirmation trigger is not required to supply custom content for every _contentSlot_. See our [example template](#example-template) for a good starting point.
 
-```JS
+### Manual Usage
 
-/* ... */
+Though **Turbo-Confirm** was primarily designed to serve as [turbo-rails]' confirmation interface, it may also be invoked directly by application code. In almost the same manner as the native `window.confirm`.  While native confirm pauses execution until the user accepts or declines, **Turbo-Confirm** is [Promise][mdn-promise] based.
 
-const contentSlots = {
-  title: {
-    contentAttribute: 'confirm-title',
-    slotSelector: '.title'
-  },
-  subtitle: {
-    contentAttribute: 'confirm-subtitle',
-    slotSelector: '.subtitle'
-  },
-  note: {
-    contentAttribute: 'confirm-note',
-    slotSelector: '#confirm-body'
+e.g.
+
+```js
+import { TurboConfirm } from "@rolemodel/turbo-confirm"
+
+const tc = new TurboConfirm()
+tc.confirm('Are you sure?').then(response => { response ? /* accepted */ : /* denied */ })
+```
+
+The message itself is optional as well.  Simply call `confirm()` with **no** arguments and your dialog's default content will be displayed un-altered. e.g.
+
+```js
+import { TurboConfirm } from "@rolemodel/turbo-confirm"
+
+const tc = new TurboConfirm({ /* Any Custom Configuration */ })
+tc.confirm()
+```
+
+**Turbo-Confirm** has an additional public method, `confirmWithContent` that expects a _contentMap_ object where the keys are content slot selectors and the values are the content you want displayed in each selected element.
+
+e.g.
+
+```js
+import { TurboConfirm } from "@rolemodel/turbo-confirm"
+
+const tc = new TurboConfirm()
+tc.confirmWithContent({
+  '#confirm-title': 'Are you sure?',
+  '#confirm-accept': 'Do it!'
+}).then(response => { response ? /* accepted */ : /* denied */ })
+```
+
+**note:** The `TurboConfirm` constructor creates a brand new instance that will not share configuration with the one Turbo-Rails is using.  For that reason, a config object may be passed into the `TurboConfirm` constructor. See [configuration docs](#configuration) for available options and their default values.
+
+### Stimulus Example
+
+While Turbo will invoke **Turbo-Confirm** for you in the case of a form submission (like `button_to`) or form link (like `link_to` w/ a `data-turbo-method`), In the case of a regular link or a button that does not submit a form, you're on your own.  But **Turbo-Confirm** can help.
+
+For those cases, a simple [Stimulus] wrapper around **Turbo-Confirm** is a good solution.
+
+e.g.
+
+```js
+import { Controller } from "@hotwired/stimulus"
+import { TurboConfirm } from "@rolemodel/turbo-confirm"
+
+export default class extends Controller {
+  #hasAccepted = false
+
+  connect() {
+    this.tc = new TurboConfirm({ /* Any Custom Configuration */ })
+  }
+
+  async perform(event) {
+    if (this.#hasAccepted) {
+      this.#hasAccepted = false
+      return
+    }
+
+    event.preventDefault()
+    event.stopImmediatePropagation()
+
+    if (await this.tc.confirm(event.params.message)) {
+      this.#hasAccepted = true
+      event.target.click()
+    }
   }
 }
 
-RoleModelConfirm.init({ contentSlots })
 ```
 
-Based on that custom configuration, an example `button_to` trigger might look like this:
+```HTML
 
-```RUBY
-  = button_to 'Delete ToDo', todo_path(todo),
-    class: 'btn btn--danger',
-    method: :delete,
-    data: { \
-      turbo_confirm: true,
-      confirm_title: tag.h1("You're about to do something dangerous!"),
-      confirm_subtitle: tag.small('somewhat dangerous, at least..'),
-      confirm_note: simple_format(todo.body),
-    }
+<a href="https://rolemodelsoftware.com" data-controller="confirm" data-confirm-message-param="Do you need custom software?" data-action="confirm#perform">Click me</a>
+
 ```
 
-Obviously, the `slotSelector` of any contentSlots you configure will need to reference actual DOM elements in your confirmation dialog template.
+## Configuration
 
-### Default Config
+|  Option               | description                                                                                                                                       | default value                       |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `dialogSelector`      | Global CSS selector used to locate your dialog HTML (an ID selector is recommended)                                                               | `'#confirm'`                        |
+| `activeClass`         | HTML class that causes your dialog element to become visible. (note: you're responsible for defining necessary style rules)                       | `'modal--active'`                   |
+| `acceptSelector`      | CSS selector identifying the button within your dialog HTML which should trigger acceptance of a confirmation challenge                           | `'#confirm-accept'`                 |
+| `denySelector`        | CSS selector identifying the button(s) within your dialog HTML which should trigger rejection of a confirmation challenge                         | `'.confirm-cancel'`                 |
+| `animationDuration`   | approximate number of miliseconds **Turbo-Confirm** should wait for your dialog's CSS to transition to/from a visible state                           | `300`                               |
+| `showConfirmCallback` | a fuction, called on show with 1 argument (the dialog). The default provides support for native [dialog elements][mdn-dialog]                     | [see below](#default-config-object) |
+| `hideConfirmCallback` | a fuction, called on accept or reject with 1 argument (the dialog). The default provides support for native [dialog elements][mdn-dialog]         | [see below](#default-config-object) |
+| `messageSlotSelector` | CSS selector of the element within your dialog HTML where the value of `data-turbo-confirm` (or supplied message) should be rendered              | `'#confirm-title'`                  |
+| `contentSlots`        | an object describing additional customization points. See [contentSlots](#customizing-more-than-just-a-message) for a more detailed description.  | [see below](#default-config-object) |
 
-```JS
+### Default Config Object
+
+```js
 {
     dialogSelector: '#confirm',
     activeClass: 'modal--active',
     acceptSelector: '#confirm-accept',
     denySelector: '.confirm-cancel',
     animationDuration: 300,
-    showConfirmCallback: null,
+    showConfirmCallback: element => element.showModal && element.showModal(),
+    hideConfirmCallback: element => element.close && element.close(),
+    messageSlotSelector: '#confirm-title',
     contentSlots: {
-      title: {
-        contentAttribute: 'turbo-confirm',
-        slotSelector: '#confirm-title'
-      },
       body: {
         contentAttribute: 'confirm-details',
         slotSelector: '#confirm-body'
@@ -135,12 +200,12 @@ Obviously, the `slotSelector` of any contentSlots you configure will need to ref
   }
 ```
 
-### Example Template
+## Example Template
 
 Based on the default configuration, the following template is suitable.
 
 ```HTML
-  <!-- Here is our dialog (not visible without a 'modal--active' class) -->
+  <!-- not visible until a 'modal--active' class is applied to the #confirm element -->
   <div id="confirm" class="modal">
     <div class="modal__backdrop confirm-cancel"></div>
     <div class="modal__content">
@@ -156,3 +221,38 @@ Based on the default configuration, the following template is suitable.
     </div>
   </div>
 ```
+
+### Native Dialogs
+
+If you're not already using a CSS or style component framework. I suggest checking out [Optics].  Alternatively, the native [dialog][mdn-dialog] element is fully supported by modern browsers and removes much of the styling burden that would otherwise be required to emulate such behavior with only a `div`.
+
+**Turbo-Confirm** fully supports the native dialog element, including dismissal via `esc` key.
+
+```HTML
+  <!-- not visible without an [open] attribute, which **Turbo-Confirm** will handle for you -->
+  <dialog id="confirm" class="modal">
+    <div class="modal__content">
+      <h3 id="confirm-title">Replaced by `data-turbo-confirm` attribute</h3>
+      <div id="confirm-body">
+        <p>Default confirm message.</p>
+        <p>Optionally replaced by `data-confirm-details` attribute</p>
+      </div>
+      <div class="modal-actions">
+        <button class="confirm-cancel">Cancel</button>
+        <button id="confirm-accept">Yes, I'm Sure</button>
+      </div>
+    </div>
+  </dialog>
+```
+
+## What is RoleModel Software?
+
+[RoleModel Software][rms] is a world-class, collaborative software development team dedicated to delivering the highest quality custom web and mobile software solutions while cultivating a work environment where community, family, learning, and mentoring flourish.
+
+[slim]: https://github.com/slim-template/slim
+[turbo-rails]: https://github.com/hotwired/turbo-rails/
+[Stimulus]: https://github.com/hotwired/stimulus/
+[mdn-promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[mdn-dialog]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog/
+[Optics]: https://github.com/RoleModel/optics/
+[rms]: https://rolemodelsoftware.com/

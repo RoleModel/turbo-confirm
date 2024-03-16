@@ -1,0 +1,20 @@
+%modal-wrapper-global {
+
+  &.modal--active {
+    visibility: visible;
+
+    .modal {
+      opacity: var(--op-opacity-full);
+      transform: scale(1);
+    }
+
+    .modal-wrapper__backdrop {
+      opacity: var(--_op-modal-backdrop-active-opacity);
+      visibility: visible;
+    }
+  }
+
+  .modal {
+    padding: var(--op-spacing-4);
+  }
+}

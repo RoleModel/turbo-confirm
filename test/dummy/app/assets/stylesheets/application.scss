@@ -1,0 +1,7 @@
+// Entry point for your Sass build
+@import 'vendor/material-icons';
+@import '@rolemodel/optics/dist/scss/optics';
+// @import '@rolemodel/optics/dist/scss/addons/rails-modal-and-panel';
+
+@import 'components/custom_styles';
+@import 'components/modal';

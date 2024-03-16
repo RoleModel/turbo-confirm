@@ -1,0 +1,6 @@
+= render 'confirm'
+.flex.flex-col.gap-md
+  .flex.justify-between.items-center data-controller="content" data-action="rms:confirm-accept@document->content#accepted rms:confirm-reject@document->content#rejected"
+    h1 data-testid="header" data-content-target="message" Todos
+  .card-padded
+    = render @todos
