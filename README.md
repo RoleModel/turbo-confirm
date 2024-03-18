@@ -27,11 +27,11 @@ In your application's JavaScript entry point file. (_app/javascript/application.
 
 ```JS
 import { Turbo } from "@hotwired/turbo-rails"
-import RoleModelConfirm from "@rolemodel/turbo-confirm"
+import RM from "@rolemodel/turbo-confirm"
 
-Turbo.setConfirmMethod(RoleModelConfirm.confirm)
+Turbo.setConfirmMethod(RM.confirm)
 
-RoleModelConfirm.init()
+RM.init()
 ```
 
 And then exercise it via `button_to` (example shown in [slim](https://github.com/slim-template/slim) templating syntax)
@@ -99,7 +99,7 @@ Based on that custom configuration, an example `button_to` trigger might look li
     class: 'btn btn--danger',
     method: :delete,
     data: { \
-      turbo_confirm: true,
+      turbo_confirm: 'ignored',
       confirm_title: tag.h1("You're about to do something dangerous!"),
       confirm_subtitle: tag.small('somewhat dangerous, at least..'),
       confirm_note: simple_format(todo.body),
@@ -118,6 +118,7 @@ Obviously, the `slotSelector` of any contentSlots you configure will need to ref
     denySelector: '.confirm-cancel',
     animationDuration: 300,
     showConfirmCallback: null,
+    messageSlotTarget: 'title',
     contentSlots: {
       title: {
         contentAttribute: 'turbo-confirm',
@@ -159,7 +160,7 @@ Based on the default configuration, the following template is suitable.
 
 ### Manual Usage
 
-Though `@rolemodel/turbo-confirm` was primarily designed to work as Turbo/Rails' confirmation interface, it may also be invoked directly by application code.
+Though `@rolemodel/turbo-confirm` was primarily designed to work as Turbo/Rails' confirmation interface, it may also be invoked directly by application code. Almost the same way you use native `window.confirm`.  While native confirm pauses execution until the user accepts or declines, TurboConfirm returns a promise.
 
 e.g.
 
@@ -169,4 +170,50 @@ import RM from "@rolemodel/turbo-confirm"
 RM.confirm('Are you sure?').then(() => { /* proceed */ })
 ```
 
-TODO: add direct use documentation & an example Stimulus Controller. Don't forget to document accept/reject events.
+### Stimulus Example
+
+While Turbo will invoke `@rolemodel/turbo-confirm` for you in the case of a form submission (like `button_to`) or non-get link (like `link_to` w/ a `data-turbo-method`),  it doesn't in the case of a regular link or a button that does not submit a form.
+
+In those cases, a simple Stimulus controller can be used.
+
+e.g.
+
+```JS
+
+import { Controller } from "@hotwired/stimulus"
+import RM from "@rolemodel/turbo-confirm"
+
+export default class extends Controller {
+  #hasAccepted = false
+
+  async perform(event) {
+    if (this.#hasAccepted) {
+      this.#hasAccepted = false
+      return
+    }
+
+    event.preventDefault()
+    event.stopImmediatePropagation()
+
+    if (await RM.confirm(event.params.message)) {
+      this.#hasAccepted = true
+      event.target.click()
+    }
+  }
+}
+
+```
+
+```HTML
+
+<a href="https://rolemodelsoftware.com" data-controller="confirm" data-confirm-message-param="Do you need custom software?" data-action="confirm#perform">Click me</a>
+
+```
+
+### Events
+
+TODO: document `rms:confirm-accept` & `rms:confirm-reject`
+
+### Configuration Documentation
+
+TODO: markdown table explaining each config option w/ default values
