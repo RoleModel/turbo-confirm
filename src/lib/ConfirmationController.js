@@ -36,20 +36,19 @@ export default class ConfirmationController {
   }
 
   perform(message, submitter) {
-    // Should we handle the reject case as well? That will force an async caller to catch the error.
-    // Actually not sure we can, because the caller is usually Turbo... and it doesn't catch error.
-    const promise = new Promise((resolve) => this.#resolve = resolve.bind(this, true))
+    const promise = new Promise((resolve) => this.#resolve = resolve.bind(this))
     this.#showConfirm(message, submitter)
 
     return promise
   }
 
   accept() {
-    this.#resolve()
+    this.#resolve(true)
     this.#teardown()
   }
 
   deny() {
+    this.#resolve(false)
     this.#teardown()
   }
 
