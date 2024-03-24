@@ -29,9 +29,9 @@ In your application's JavaScript entry point file. (_app/javascript/application.
 import { Turbo } from "@hotwired/turbo-rails"
 import RM from "@rolemodel/turbo-confirm"
 
-const rm = new RM()
+Turbo.setConfirmMethod(RM.confirm)
 
-Turbo.setConfirmMethod(rm.confirm)
+RM.init()
 ```
 
 And then exercise it via `button_to` (example shown in [slim](https://github.com/slim-template/slim) templating syntax)
@@ -89,23 +89,7 @@ const contentSlots = {
   }
 }
 
-const rm = new RM({ contentSlots })
-
-Turbo.setConfirmMethod(rm.confirm)
-```
-
-Based on that custom configuration, an example `button_to` trigger might look like this:
-
-```RUBY
-  = button_to 'Delete ToDo', todo_path(todo),
-    class: 'btn btn--danger',
-    method: :delete,
-    data: { \
-      turbo_confirm: 'ignored',
-      confirm_title: tag.h1("You're about to do something dangerous!"),
-      confirm_subtitle: tag.small('somewhat dangerous, at least..'),
-      confirm_note: simple_format(todo.body),
-    }
+RM.init({ contentSlots })
 ```
 
 Obviously, the `slotSelector` of any contentSlots you configure will need to reference actual DOM elements in your confirmation dialog template.
@@ -163,10 +147,24 @@ Though `@rolemodel/turbo-confirm` was primarily designed to work as Turbo/Rails'
 e.g.
 
 ```JS
-import RM from "@rolemodel/turbo-confirm"
+import { TurboConfirm } from "@rolemodel/turbo-confirm"
 
-const rm = new RM()
-rm.confirm('Are you sure?').then(() => { /* proceed */ })
+const turboConfirm = new TurboConfirm()
+turboConfirm.confirm('Are you sure?').then(response => { response ? /* accepted */ : /* not accepted*/ })
+```
+
+TurboConfirm has an additional public method, `confirmWithContent` that expects a *contentMap* object where the keys are content slot selectors and the values are the content you want displayed in each selected element.
+
+e.g.
+
+```JS
+import { TurboConfirm } from "@rolemodel/turbo-confirm"
+
+const turboConfirm = new TurboConfirm()
+turboConfirm.confirmWithContent({
+  '#confirm-title': 'Are you sure?',
+  '#confirm-accept': 'Do it!'
+}).then(response => { response ? /* accepted */ : /* not accepted*/ })
 ```
 
 ### Stimulus Example
@@ -180,13 +178,13 @@ e.g.
 ```JS
 
 import { Controller } from "@hotwired/stimulus"
-import RM from "@rolemodel/turbo-confirm"
+import { TurboConfirm } from "@rolemodel/turbo-confirm"
 
 export default class extends Controller {
   #hasAccepted = false
 
   connect() {
-    this.rm = new RM()
+    this.turboConfirm = new TurboConfirm({ /* Any Custom Configuration */ })
   }
 
   async perform(event) {
@@ -198,9 +196,8 @@ export default class extends Controller {
     event.preventDefault()
     event.stopImmediatePropagation()
 
-    if (await this.rm.confirm(event.params.message)) {
+    if (await this.turboConfirm.confirm(event.params.message)) {
       this.#hasAccepted = true
-      this.dispatch('accepted')
       event.target.click()
     }
   }

@@ -1,4 +1,6 @@
-export default class TurboConfirm {
+import ConfirmationController from './ConfirmationController'
+
+export class TurboConfirm {
   #controller
   #config = {
     dialogSelector: '#confirm',
@@ -25,16 +27,14 @@ export default class TurboConfirm {
       this.#config[key] = value
     }
 
-    this.#controller = new ConfirmationController(
-      document.querySelector(this.#config.dialogSelector), this
-    )
+    this.#controller = new ConfirmationController(this.#config.dialogSelector, this)
   }
 
   confirm(message, _formElement, submitter) {
     const clickTarget = this.#clickTarget(submitter)
     const contentMap = this.#contentMap(message, clickTarget)
 
-    return confirmWithContent(contentMap)
+    return this.confirmWithContent(contentMap)
   }
 
   confirmWithContent(contentMap) {

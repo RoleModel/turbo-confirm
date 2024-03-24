@@ -1,9 +1,10 @@
 export default class ConfirmationController {
   #resolve
+  #dialogSelector
   #initialContent
 
-  constructor(element, delegate) {
-    this.element = element
+  constructor(selector, delegate) {
+    this.#dialogSelector = selector
     this.delegate = delegate
 
     this.accept = this.accept.bind(this)
@@ -38,6 +39,10 @@ export default class ConfirmationController {
 
   get denyButtons() {
     return this.element.querySelectorAll(this.delegate.denySelector)
+  }
+
+  get element() {
+    return document.querySelector(this.#dialogSelector)
   }
 
   #teardown() {

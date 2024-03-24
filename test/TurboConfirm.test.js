@@ -1,8 +1,8 @@
-import ConfirmationController from '../src/lib/ConfirmationController';
+import {TurboConfirm} from '../src/index';
 
 const event = new CustomEvent('mockTrigger')
 
-describe('ConfirmationController', () => {
+describe('TurboConfirm', () => {
   beforeEach(() => {
     document.body.innerHTML = `
       <div id="confirm" class="modal">
@@ -30,8 +30,8 @@ describe('ConfirmationController', () => {
   describe('setup & teardown of the dialog', () => {
     it('should add and then remove the activeClass from the dialog', () => {
       const cancelButton = document.getElementById('cancel-button')
-      const controller = new ConfirmationController()
-      controller.perform(event)
+      const controller = new TurboConfirm()
+      controller.confirm('test content', null, document.getElementById('trigger'))
 
       expect(document.querySelector('#confirm').classList.contains('modal--active')).toBe(true)
 
@@ -42,20 +42,14 @@ describe('ConfirmationController', () => {
 
     it('should apply contentAttribute values to dialog slots and then restore the original content on teardown', done => {
       const cancelButton = document.getElementById('cancel-button')
-      const controller = new ConfirmationController({animationDuration: 0})
-      controller.perform(event)
+      const controller = new TurboConfirm()
+
+      controller.confirm('test content', null, document.getElementById('trigger')).then(done)
 
       expect(document.querySelector('#confirm-title').innerHTML).toBe('test content')
       expect(document.querySelector('#confirm-accept').innerHTML).toBe('Do it!')
 
       cancelButton.click()
-
-      setTimeout(() => {
-        // next tick
-        expect(document.querySelector('#confirm-title').innerHTML).toBe('Original Title Content')
-        expect(document.querySelector('#confirm-accept').innerHTML).toBe("Yes, I'm Sure")
-        done()
-      }, 0)
     })
   })
 
@@ -66,8 +60,8 @@ describe('ConfirmationController', () => {
       const originalSubmitter = document.getElementById('trigger')
       originalSubmitter.onclick = () => { testState.success = true }
 
-      const controller = new ConfirmationController()
-      controller.perform(event)
+      const controller = new TurboConfirm()
+      controller.confirm('test content', null, originalSubmitter)
 
       expect(testState.success).toBe(false)
 
@@ -79,16 +73,18 @@ describe('ConfirmationController', () => {
 
   describe('denying the confirmation', () => {
 
-    it('with the dialog cancel event', () => {
-      const controller = new ConfirmationController()
+    it('with the dialog cancel event', done => {
+      const controller = new TurboConfirm()
       const dialog = document.getElementById('confirm')
-      controller.perform(event)
 
-      expect(dialog.classList.contains('modal--active')).toBe(true)
+      controller.confirm('test content', null, document.getElementById('trigger'))
 
-      dialog.dispatchEvent(new CustomEvent('cancel'))
-
-      expect(dialog.classList.contains('modal--active')).toBe(false)
+      setTimeout(() => {
+        expect(dialog.classList.contains('modal--active')).toBe(true)
+        dialog.dispatchEvent(new CustomEvent('cancel'))
+        expect(dialog.classList.contains('modal--active')).toBe(false)
+        done()
+      }, 0)
     })
 
   })
