@@ -29,9 +29,9 @@ In your application's JavaScript entry point file. (_app/javascript/application.
 import { Turbo } from "@hotwired/turbo-rails"
 import RM from "@rolemodel/turbo-confirm"
 
-Turbo.setConfirmMethod(RM.confirm)
+const rm = new RM()
 
-RM.init()
+Turbo.setConfirmMethod(rm.confirm)
 ```
 
 And then exercise it via `button_to` (example shown in [slim](https://github.com/slim-template/slim) templating syntax)
@@ -89,7 +89,9 @@ const contentSlots = {
   }
 }
 
-RoleModelConfirm.init({ contentSlots })
+const rm = new RM({ contentSlots })
+
+Turbo.setConfirmMethod(rm.confirm)
 ```
 
 Based on that custom configuration, an example `button_to` trigger might look like this:
@@ -118,12 +120,8 @@ Obviously, the `slotSelector` of any contentSlots you configure will need to ref
     denySelector: '.confirm-cancel',
     animationDuration: 300,
     showConfirmCallback: null,
-    messageSlotTarget: 'title',
+    messageSlotSelector: '#confirm-title',
     contentSlots: {
-      title: {
-        contentAttribute: 'turbo-confirm',
-        slotSelector: '#confirm-title'
-      },
       body: {
         contentAttribute: 'confirm-details',
         slotSelector: '#confirm-body'
@@ -167,7 +165,8 @@ e.g.
 ```JS
 import RM from "@rolemodel/turbo-confirm"
 
-RM.confirm('Are you sure?').then(() => { /* proceed */ })
+const rm = new RM()
+rm.confirm('Are you sure?').then(() => { /* proceed */ })
 ```
 
 ### Stimulus Example
@@ -186,6 +185,10 @@ import RM from "@rolemodel/turbo-confirm"
 export default class extends Controller {
   #hasAccepted = false
 
+  connect() {
+    this.rm = new RM()
+  }
+
   async perform(event) {
     if (this.#hasAccepted) {
       this.#hasAccepted = false
@@ -195,8 +198,9 @@ export default class extends Controller {
     event.preventDefault()
     event.stopImmediatePropagation()
 
-    if (await RM.confirm(event.params.message)) {
+    if (await this.rm.confirm(event.params.message)) {
       this.#hasAccepted = true
+      this.dispatch('accepted')
       event.target.click()
     }
   }
@@ -209,10 +213,6 @@ export default class extends Controller {
 <a href="https://rolemodelsoftware.com" data-controller="confirm" data-confirm-message-param="Do you need custom software?" data-action="confirm#perform">Click me</a>
 
 ```
-
-### Events
-
-TODO: document `rms:confirm-accept` & `rms:confirm-reject`
 
 ### Configuration Documentation
 
