@@ -1,10 +1,10 @@
 import {dispatch} from './lib/utils.js'
 export { TurboConfirm } from './lib/TurboConfirm'
 
-const confirm = async (message, _formElement, submitter) => {
+const confirm = async (message, formElement, submitter) => {
   if (!window._TurboConfirm) init()
 
-  const confirmationResponse = await window._TurboConfirm.perform(message, submitter)
+  const confirmationResponse = await window._TurboConfirm.confirm(message, formElement, submitter)
 
   if (confirmationResponse) {
     dispatch('confirm-accept', submitter)
