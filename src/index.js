@@ -1,5 +1,5 @@
 import {dispatch} from './lib/utils.js'
-export { TurboConfirm } from './lib/TurboConfirm'
+import { TurboConfirm } from './lib/TurboConfirm'
 
 const noTurboError = new Error('Turbo must be loaded before TurboConfirm')
 
@@ -24,3 +24,4 @@ const start = (options) => {
 const init = start;
 
 export default { init, start }
+export { TurboConfirm }
