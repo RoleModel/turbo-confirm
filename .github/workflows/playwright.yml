@@ -25,11 +25,10 @@ jobs:
       with:
         ruby-version: '3.3'
         bundler-cache: true
-        working-directory: /test/dummy
 
     - name: Setup dummy app
       run: bin/setup
-      working-directory: /test/dummy
+      working-directory: ./test/dummy
 
     - name: Run Playwright tests
       run: yarn playwright test
