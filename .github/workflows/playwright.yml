@@ -21,7 +21,7 @@ jobs:
       run: yarn playwright install --with-deps
 
     - name: Run Yarn Install in dummy app
-      run: yarn install --frozen-lockfile
+      run: npm install -g yarn && yarn
       working-directory: /test/dummy
 
     - name: Install Ruby and gems for dummy app
