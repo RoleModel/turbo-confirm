@@ -16,7 +16,10 @@ export default class ConfirmationController {
     if (!this.#initialContent) this.#initialContent = this.element.innerHTML
 
     for(const [selector, content] of Object.entries(contentMap)) {
-      this.element.querySelector(selector).innerHTML = content
+      const target = this.element.querySelector(selector)
+      if (target && content) {
+        target.innerHTML = content
+      }
     }
 
     this.#setupListeners()
