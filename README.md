@@ -1,4 +1,4 @@
-# RoleModel Confirm
+# Turbo Confirm
 
 A drop-in upgrade for Rails `data-turbo-confirm`.
 
@@ -27,9 +27,9 @@ In your application's JavaScript entry point file. (usually _app/javascript/appl
 
 ```js
 import "@hotwired/turbo-rails"
-import RM from "@rolemodel/turbo-confirm"
+import TC from "@rolemodel/turbo-confirm"
 
-RM.start()
+TC.start()
 ```
 
 **note:** `@hotwired/turbo-rails` must be imported prior to calling the `start` function. This is so Turbo-Confirm can coordinate with Turbo regarding confirmation handling. The `start` function is also where you may override default behavior by passing a configuration object. See [configuration docs](#configuration) for available options and their default values.
@@ -58,7 +58,7 @@ or `link_to` with a `data-turbo-method` attribute.
 
 ### Customizing more than just a message
 
-`@rolemodel/turbo-confirm` supports other custom content beyond a simple message, by setting additional data attributes on the confirmation trigger. Henceforth referred to as _contentSlots_, this feature is both infinitely configurable and completely optional. Out of the box Turbo-Confirm supports two:
+Turbo-Confirm supports other custom content beyond a simple message, by setting additional data attributes on the confirmation trigger. Henceforth referred to as _contentSlots_, this feature is both infinitely configurable and completely optional. Out of the box Turbo-Confirm supports two:
 
 - **body** activated by a `data-confirm-details` attribute on the confirmation trigger. The attribute's value will be assigned to the element matching the `#confirm-body` selector.
 - **acceptText** activated by a `data-confirm-button` attribute on the confirmation trigger. The attribute's value will be assigned to the element matching the `#confirm-accept` selector (same as the default value of the `acceptSelector` configuration property)
@@ -79,7 +79,7 @@ example usage of default _contentSlots_ via `button_to` in Slim templating synta
 
 ### Manual Usage
 
-Though Turbo-Confirm was primarily designed to serve as [turbo-rails](https://github.com/hotwired/turbo-rails)' confirmation interface, it may also be invoked directly by application code. In almost the same manner as native `window.confirm` is used.  While native confirm pauses execution until the user accepts or declines, Turbo-Confirm is [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) based.
+Though Turbo-Confirm was primarily designed to serve as [turbo-rails](https://github.com/hotwired/turbo-rails)' confirmation interface, it may also be invoked directly by application code. In almost the same manner as the native `window.confirm`.  While native confirm pauses execution until the user accepts or declines, Turbo-Confirm is [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) based.
 
 e.g.
 
@@ -87,10 +87,10 @@ e.g.
 import { TurboConfirm } from "@rolemodel/turbo-confirm"
 
 const turboConfirm = new TurboConfirm()
-turboConfirm.confirm('Are you sure?').then(response => { response ? /* accepted */ : /* not accepted*/ })
+turboConfirm.confirm('Are you sure?').then(response => { response ? /* accepted */ : /* denied */ })
 ```
 
-TurboConfirm has an additional public method, `confirmWithContent` that expects a *contentMap* object where the keys are content slot selectors and the values are the content you want displayed in each selected element.
+TurboConfirm has an additional public method, `confirmWithContent` that expects a _contentMap_ object where the keys are content slot selectors and the values are the content you want displayed in each selected element.
 
 e.g.
 
@@ -101,14 +101,14 @@ const turboConfirm = new TurboConfirm()
 turboConfirm.confirmWithContent({
   '#confirm-title': 'Are you sure?',
   '#confirm-accept': 'Do it!'
-}).then(response => { response ? /* accepted */ : /* not accepted*/ })
+}).then(response => { response ? /* accepted */ : /* denied */ })
 ```
 
 **note:** The `TurboConfirm` constructor creates a brand new instance that will not share configuration with the one Turbo-Rails is using.  For that reason, a config object may be passed into the `TurboConfirm` constructor. See [configuration docs](#configuration) for available options and their default values.
 
 ### Stimulus Example
 
-While Turbo will invoke `@rolemodel/turbo-confirm` for you in the case of a form submission (like `button_to`) or form link (like `link_to` w/ a `data-turbo-method`), In the case of a regular link or a button that does not submit a form, you're on your own.  But Turbo-Confirm can help.
+While Turbo will invoke Turbo-Confirm for you in the case of a form submission (like `button_to`) or form link (like `link_to` w/ a `data-turbo-method`), In the case of a regular link or a button that does not submit a form, you're on your own.  But Turbo-Confirm can help.
 
 For those cases, a simple Stimulus wrapper around Turbo-Confirm is a good solution.
 
