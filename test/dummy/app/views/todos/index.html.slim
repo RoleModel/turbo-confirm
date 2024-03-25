@@ -1,0 +1,11 @@
+.flex.flex-col.gap-md
+  .flex.justify-between.items-center
+    h1 Todos
+    = link_to new_todo_path, class: 'btn-primary', data: { action: 'confirm#perform', confirm_message_param: 'This will open a modal ToDo form.' } do
+      = icon('add')
+      | Add Todo
+
+  .card-padded
+    = render @todos
+  .flex.items-center.justify-end.gap-md
+    = link_to 'Manual Confirm test', confirms_path, class: 'btn-primary btn--large', data: { action: 'confirm#perform', confirm_message_param: 'You will leave this page.' }
