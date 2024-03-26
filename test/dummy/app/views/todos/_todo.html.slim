@@ -3,7 +3,7 @@
   = button_to todo_path(todo), method: :delete, class: 'btn btn-delete btn--icon',
     data: { \
       turbo_confirm: 'Are you for sure?',
-      confirm_details: simple_format(todo.description),
+      confirm_details: simple_format(todo.body),
       confirm_button: 'Delete ToDo',
     } do
     = icon('delete')

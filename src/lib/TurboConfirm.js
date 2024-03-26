@@ -43,6 +43,11 @@ export class TurboConfirm {
 
   showConfirm(element) {
     element.classList.add(this.#config.activeClass)
+    // support dialog element
+    if (typeof element.showModal === 'function') {
+      element.showModal()
+    }
+    // is this still required?
     if (this.#config.showConfirmCallback) {
       this.#config.showConfirmCallback(element)
     }
@@ -50,6 +55,10 @@ export class TurboConfirm {
 
   hideConfirm(element) {
     element.classList.remove(this.#config.activeClass)
+    // support dialog element
+    if (typeof element.close === 'function') {
+      element.close()
+    }
   }
 
   get acceptSelector() {
