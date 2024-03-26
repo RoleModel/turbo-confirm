@@ -9,7 +9,6 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
-      RAILS_ENV: test
       CI: true
     steps:
     - uses: actions/checkout@v4
