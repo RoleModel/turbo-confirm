@@ -25,4 +25,8 @@ test('Turbo Confirmation Integration', async ({ page }) => {
   await expect(page.locator('#confirm-title')).toContainText('Are you sure?')
 
   // await expect(page.locator('body')).toContainText('Todo was successfully destroyed.') // This is working intermittently
+  // expect change to header text (due to accept / reject data-actions)
 });
+
+// test custom config
+// test navigation to new page and confirm still works (this should be tested because Turbo persistes between navigations)

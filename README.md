@@ -209,6 +209,7 @@ Based on the default configuration, the following template is suitable.
     </div>
   </div>
 ```
+
 [turbo-rails]: https://github.com/hotwired/turbo-rails
 [mdn-promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 [mdn-dialog]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog

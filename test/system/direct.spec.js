@@ -22,3 +22,6 @@ test.describe('direct invocation', () => {
     await expect(title).toContainText('Are you sure?')
   })
 })
+
+// test custom config
+// test confirmWithContent

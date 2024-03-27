@@ -45,4 +45,7 @@ test.describe('Stimulus Controller Integration', () => {
     await expect(dialog).not.toHaveAttribute('open');
     await expect(header).toContainText('A confirm has been accepted');
   })
+
+  // TODO: dialog element escape key press to cancel
+  // custom config
 })
