@@ -1,0 +1,5 @@
+- flash.each do |type, messages|
+  - Array(messages).each do |message|
+    .alert--outlined class="alert-#{type}"
+      .alert__messages
+        .alert__description = message

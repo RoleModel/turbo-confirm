@@ -1,1 +1,36 @@
-node_modules
+/node_modules
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/yarn-error.log
+
+# Ignore bundler config.
+/test/dummy/.bundle
+
+# Ignore all logfiles and tempfiles.
+/test/dummy/log/*
+/test/dummy/tmp/*
+!/test/dummy/log/.keep
+!/test/dummy/tmp/.keep
+
+# Ignore pidfiles, but keep the directory.
+/test/dummy/tmp/pids/*
+!/test/dummy/tmp/pids/
+!/test/dummy/tmp/pids/.keep
+
+# Ignore uploaded files in development.
+/test/dummy/storage/*
+!/test/dummy/storage/.keep
+/test/dummy/tmp/storage/*
+!/test/dummy/tmp/storage/
+!/test/dummy/tmp/storage/.keep
+
+/test/dummy/public/assets
+# Ignore master key for decrypting credentials and more.
+/test/dummy/config/master.key
+
+/test/dummy/app/assets/builds/*
+!/test/dummy/app/assets/builds/.keep
+
+/test/dummy/node_modules
