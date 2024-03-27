@@ -5,7 +5,7 @@ export default class extends Controller {
   #hasAccepted = false
 
   connect() {
-    this.turboConfirm = new TurboConfirm(this.#options)
+    this.turboConfirm = new TurboConfirm()
   }
 
   async perform(event) {
@@ -23,14 +23,6 @@ export default class extends Controller {
       event.target.click()
     } else {
       this.dispatch('rejected')
-    }
-  }
-
-  get #options() {
-    return {
-      showConfirmCallback: (element) => {
-        console.log('showConfirmCallback')
-      }
     }
   }
 }
