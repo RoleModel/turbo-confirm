@@ -33,16 +33,16 @@ test.describe('Stimulus Controller Integration', () => {
     const customMessage = await button.getAttribute('data-confirm-message-param') || '';
 
     await expect(header).toContainText('Manual Confirm Test');
-    await expect(dialog).not.toHaveAttribute('open');
+    await expect(dialog).not.toBeVisible();
 
     await button.click();
 
-    await expect(dialog).toHaveAttribute('open');
+    await expect(dialog).toBeVisible();
     await expect(dialog).toContainText(customMessage);
 
     await dialog.getByText("Yes, I'm Sure").click();
 
-    await expect(dialog).not.toHaveAttribute('open');
+    await expect(dialog).not.toBeVisible();
     await expect(header).toContainText('A confirm has been accepted');
   })
 })
