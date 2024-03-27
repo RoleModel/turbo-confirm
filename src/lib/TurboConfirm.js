@@ -8,7 +8,8 @@ export class TurboConfirm {
     acceptSelector: '#confirm-accept',
     denySelector: '.confirm-cancel',
     animationDuration: 300,
-    showConfirmCallback: null,
+    showConfirmCallback: element => element.showModal && element.showModal(),
+    hideConfirmCallback: element => element.close && element.close(),
     messageSlotSelector: '#confirm-title',
     contentSlots: {
       body: {
@@ -43,11 +44,6 @@ export class TurboConfirm {
 
   showConfirm(element) {
     element.classList.add(this.#config.activeClass)
-    // support dialog element
-    if (typeof element.showModal === 'function') {
-      element.showModal()
-    }
-    // is this still required?
     if (this.#config.showConfirmCallback) {
       this.#config.showConfirmCallback(element)
     }
@@ -55,9 +51,8 @@ export class TurboConfirm {
 
   hideConfirm(element) {
     element.classList.remove(this.#config.activeClass)
-    // support dialog element
-    if (typeof element.close === 'function') {
-      element.close()
+    if (this.#config.hideConfirmCallback) {
+      this.#config.hideConfirmCallback(element)
     }
   }
 

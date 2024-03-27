@@ -79,7 +79,7 @@ example usage of default _contentSlots_ via `button_to` in Slim templating synta
 
 ### Manual Usage
 
-Though Turbo-Confirm was primarily designed to serve as [turbo-rails](https://github.com/hotwired/turbo-rails)' confirmation interface, it may also be invoked directly by application code. In almost the same manner as the native `window.confirm`.  While native confirm pauses execution until the user accepts or declines, Turbo-Confirm is [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) based.
+Though Turbo-Confirm was primarily designed to serve as [turbo-rails]' confirmation interface, it may also be invoked directly by application code. In almost the same manner as the native `window.confirm`.  While native confirm pauses execution until the user accepts or declines, Turbo-Confirm is [Promise][mdn-promise] based.
 
 e.g.
 
@@ -151,16 +151,17 @@ export default class extends Controller {
 
 ## Configuration
 
-|  Option  | description | default value |
-| -------- | ----------- | ------------- |
-| `dialogSelector`      | Global CSS selector used to locate your dialog HTML (an ID selector is recommended)                                         | `'#confirm'`        |
-| `activeClass`         | HTML class that causes your dialog element to become visible. (note: you're responsible for defining necessary style rules) | `'modal--active'`   |
-| `acceptSelector`      | CSS selector identifying the button within your dialog HTML which should trigger acceptance of a confirmation challenge     | `'#confirm-accept'` |
-| `denySelector`        | CSS selector identifying the button(s) within your dialog HTML which should trigger rejection of a confirmation challenge   | `'.confirm-cancel'` |
-| `animationDuration`   | approximate number of miliseconds Turbo-Confirm should wait for your dialog's CSS to transition to/from a visible state     | `300`               |
-| `showConfirmCallback` | optional fuction Turbo-Confirm will call when showing a confirmation dialog. Receives 1 argument (the dialog)               | `null`              |
-| `messageSlotSelector` | CSS selector identifying the element within your dialog HTML where the value of `data-turbo-confirm` (or the supplied message, when called directly) should be rendered | `'#confirm-title'` |
-| `contentSlots`        | an object describing additional customization points. See [contentSlots](#customizing-more-than-just-a-message) above for a more detailed description.                  | See [default Config](#default-config-object) below |
+|  Option               | description                                                                                                                                       | default value                       |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `dialogSelector`      | Global CSS selector used to locate your dialog HTML (an ID selector is recommended)                                                               | `'#confirm'`                        |
+| `activeClass`         | HTML class that causes your dialog element to become visible. (note: you're responsible for defining necessary style rules)                       | `'modal--active'`                   |
+| `acceptSelector`      | CSS selector identifying the button within your dialog HTML which should trigger acceptance of a confirmation challenge                           | `'#confirm-accept'`                 |
+| `denySelector`        | CSS selector identifying the button(s) within your dialog HTML which should trigger rejection of a confirmation challenge                         | `'.confirm-cancel'`                 |
+| `animationDuration`   | approximate number of miliseconds Turbo-Confirm should wait for your dialog's CSS to transition to/from a visible state                           | `300`                               |
+| `showConfirmCallback` | a fuction, called on show with 1 argument (the dialog). The default provides support for native [dialog elements][mdn-dialog]                     | [see below](#default-config-object) |
+| `hideConfirmCallback` | a fuction, called on accept or reject with 1 argument (the dialog). The default provides support for native [dialog elements][mdn-dialog]         | [see below](#default-config-object) |
+| `messageSlotSelector` | CSS selector of the element within your dialog HTML where the value of `data-turbo-confirm` (or supplied message) should be rendered              | `'#confirm-title'`                  |
+| `contentSlots`        | an object describing additional customization points. See [contentSlots](#customizing-more-than-just-a-message) for a more detailed description.  | [see below](#default-config-object) |
 
 ### Default Config Object
 
@@ -171,7 +172,8 @@ export default class extends Controller {
     acceptSelector: '#confirm-accept',
     denySelector: '.confirm-cancel',
     animationDuration: 300,
-    showConfirmCallback: null,
+    showConfirmCallback: element => element.showModal && element.showModal(),
+    hideConfirmCallback: element => element.close && element.close(),
     messageSlotSelector: '#confirm-title',
     contentSlots: {
       body: {
@@ -207,3 +209,6 @@ Based on the default configuration, the following template is suitable.
     </div>
   </div>
 ```
+[turbo-rails]: https://github.com/hotwired/turbo-rails
+[mdn-promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[mdn-dialog]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
