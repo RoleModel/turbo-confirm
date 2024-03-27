@@ -1,5 +1,20 @@
 class TodosController < ApplicationController
-  before_action :set_todo, except: %i[index new create]
+  skip_before_action :verify_authenticity_token, only: %i[setup teardown]
+  before_action :set_todo, except: %i[index new create setup teardown]
+
+  def setup
+    todo1 = Todo.create(title: "Buy milk", done: true, body: "Go to the store!")
+    todo2 = Todo.create(title: "Release v2.0.0", done: false, body: "And don't forget to Tweet about it!")
+    todo3 = Todo.create(title: "Exercise", done: true, body: "Go for a run in the park!")
+
+    render json: [todo1, todo2, todo3]
+  end
+
+  def teardown
+    Todo.destroy_all
+
+    head :ok
+  end
 
   def index
     @todos = Todo.all.order(:created_at)

@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
-  get "up" => "rails/health#show", as: :rails_health_check
-
-  resources :todos
+  resources :todos do
+    post :setup, on: :collection # test setup
+    delete :teardown, on: :collection # test teardown
+  end
   resources :confirms, only: [] do
     get :div, on: :collection # div/css based confirm
     get :dialog, on: :collection # dialog element based confirm
+    get :custom, on: :collection # custom confirm
   end
-  root "todos#index"
 end

@@ -1,6 +1,14 @@
 // @ts-check
 import { test, expect } from '@playwright/test'
 
+test.beforeAll(async ({ request }) => {
+  await request.post('http://localhost:3000/todos/setup')
+})
+
+test.afterAll(async ({ request }) => {
+  await request.delete('http://localhost:3000/todos/teardown')
+})
+
 test('Turbo Confirmation Integration', async ({ page }) => {
   await page.goto('localhost:3000/todos')
 
