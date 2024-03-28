@@ -1,13 +1,12 @@
 # Turbo Confirm
 
-<div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;margin-bottom:20px;">
-  <div>A drop-in upgrade for Rails <code>data-turbo-confirm</code>.</div>
-
-  <div style="display:flex;align-items:center;gap:10px;">
-    <img src="https://github.com/RoleModel/turbo-confirm/actions/workflows/playwright.yml/badge.svg" alt="CI">
-    <img src="https://img.shields.io/npm/dw/@rolemodel/turbo-confirm?label=npm" alt="npm">
-  </div>
+<div>
+  <img src="https://github.com/RoleModel/turbo-confirm/actions/workflows/playwright.yml/badge.svg" alt="CI">
+  <img src="https://img.shields.io/npm/dw/@rolemodel/turbo-confirm?label=npm" alt="npm">
 </div>
+<br/>
+
+A drop-in upgrade for Rails `data-turbo-confirm`.
 
 ![title image](title_image.png)
 
