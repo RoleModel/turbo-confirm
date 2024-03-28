@@ -1,16 +1,15 @@
 # Turbo Confirm
 
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
-  <img src="https://github.com/RoleModel/turbo-confirm/actions/workflows/playwright.yml/badge.svg" alt="CI">
-  <img src="https://github.com/RoleModel/turbo-confirm/actions/workflows/release-package.yml/badge.svg" alt="Release Package">
-  <img src="https://img.shields.io/npm/dw/@rolemodel/turbo-confirm?label=npm" alt="npm">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;margin-bottom:20px;">
+  <div>A drop-in upgrade for Rails <code>data-turbo-confirm</code>.</div>
+
+  <div style="display:flex;align-items:center;gap:10px;">
+    <img src="https://github.com/RoleModel/turbo-confirm/actions/workflows/playwright.yml/badge.svg" alt="CI">
+    <img src="https://img.shields.io/npm/dw/@rolemodel/turbo-confirm?label=npm" alt="npm">
+  </div>
 </div>
 
-A drop-in upgrade for Rails `data-turbo-confirm`.
-
 ![title image](title_image.png)
-
-Leverage the convenience of _Turbo-Rails_, but ditch the native `confirm()` dialog.
 
 ## Installation
 
@@ -245,7 +244,9 @@ If you're not already using a CSS or style component framework. I suggest checki
   </dialog>
 ```
 
-## What is RoleModel Software?
+## Acknowledgments
+
+**Turbo-Confirm** is [MIT-licensed](LICENSE), open-source software from [RoleModel Software][rms].
 
 [RoleModel Software][rms] is a world-class, collaborative software development team dedicated to delivering the highest quality custom web and mobile software solutions while cultivating a work environment where community, family, learning, and mentoring flourish.
 
