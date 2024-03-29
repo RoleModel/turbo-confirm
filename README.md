@@ -76,7 +76,7 @@ example usage of default _contentSlots_ via `button_to` in [slim] templating syn
     }
 ```
 
-**note:** It's recommended that you have sensable default content already populating each of your configured _contentSlots_ within your app's confirmation dialog template. Such that every confirmation trigger is not required to supply custom content for every _contentSlot_. See our [example template](#example-template) for a good starting point.
+**note:** It's recommended that you have sensible default content already populating each of your configured _contentSlots_ within your app's confirmation dialog template. Such that every confirmation trigger is not required to supply custom content for every _contentSlot_. See our [example template](#example-template) for a good starting point.
 
 ### Manual Usage
 
@@ -118,7 +118,7 @@ tc.confirmWithContent({
 
 ### Stimulus Example
 
-While Turbo will invoke **Turbo-Confirm** for you in the case of a form submission (like `button_to`) or form link (like `link_to` w/ a `data-turbo-method`), In the case of a regular link or a button that does not submit a form, you're on your own.  But **Turbo-Confirm** can help.
+While Turbo will invoke **Turbo-Confirm** for you in the case of a form submission (like `button_to`) or form link (like `link_to` with a `data-turbo-method`), in the case of a regular link or a button that does not submit a form, you're on your own.  But **Turbo-Confirm** can help.
 
 For those cases, a simple [Stimulus] wrapper around **Turbo-Confirm** is a good solution.
 
@@ -168,8 +168,8 @@ export default class extends Controller {
 | `acceptSelector`      | CSS selector identifying the button within your dialog HTML which should trigger acceptance of a confirmation challenge                           | `'#confirm-accept'`                 |
 | `denySelector`        | CSS selector identifying the button(s) within your dialog HTML which should trigger rejection of a confirmation challenge                         | `'.confirm-cancel'`                 |
 | `animationDuration`   | approximate number of miliseconds **Turbo-Confirm** should wait for your dialog's CSS to transition to/from a visible state                           | `300`                               |
-| `showConfirmCallback` | a fuction, called on show with 1 argument (the dialog). The default provides support for native [dialog elements][mdn-dialog]                     | [see below](#default-config-object) |
-| `hideConfirmCallback` | a fuction, called on accept or reject with 1 argument (the dialog). The default provides support for native [dialog elements][mdn-dialog]         | [see below](#default-config-object) |
+| `showConfirmCallback` | a function, called on show with 1 argument (the dialog). The default provides support for native [dialog elements][mdn-dialog]                     | [see below](#default-config-object) |
+| `hideConfirmCallback` | a function, called on accept or reject with 1 argument (the dialog). The default provides support for native [dialog elements][mdn-dialog]         | [see below](#default-config-object) |
 | `messageSlotSelector` | CSS selector of the element within your dialog HTML where the value of `data-turbo-confirm` (or supplied message) should be rendered              | `'#confirm-title'`                  |
 | `contentSlots`        | an object describing additional customization points. See [contentSlots](#customizing-more-than-just-a-message) for a more detailed description.  | [see below](#default-config-object) |
 
