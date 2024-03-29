@@ -21,7 +21,6 @@ export default {
   },
   output: {
     filename: '[name].js',
-    sourceMapFilename: '[file].map',
     path: path.resolve('app/assets/builds')
   },
   resolve: {
