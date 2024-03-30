@@ -9,3 +9,6 @@ application.register("confirm", ConfirmController)
 
 import ContentController from "./content_controller"
 application.register("content", ContentController)
+
+import TodoController from "./todo_controller"
+application.register("todo", TodoController)

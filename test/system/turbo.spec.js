@@ -1,32 +1,89 @@
 // @ts-check
 import { test, expect } from '@playwright/test'
 
+let todos;
+
 test.beforeAll(async ({ request }) => {
-  await request.post('http://localhost:3000/todos/setup')
+  const response = await request.post('/todos/setup')
+  expect(response.ok()).toBeTruthy()
+  todos = await response.json()
 })
 
 test.afterAll(async ({ request }) => {
-  await request.delete('http://localhost:3000/todos/teardown')
+  const respone = await request.delete('/todos/teardown')
+  expect(respone.ok()).toBeTruthy()
 })
 
 test('Turbo Confirmation Integration', async ({ page }) => {
-  await page.goto('localhost:3000/todos')
+  await page.goto('/todos')
 
-  const dialog = page.locator('#confirm')
+  const header = page.getByTestId('header')
+  const dialog = page.getByTestId('confirm')
+  const todoDialog = page.getByTestId('confirm-todo')
+  const defaultContent = await dialog.textContent() || ''
+  // const todoCount = await page.locator('.todo-card').count()
 
-  await page.locator('.todo-card').first().getByRole('button').click()
+  await expect(header).toContainText('Todos')
+
+  await page.getByTestId(`todo_${todos[0]['id']}`).getByRole('button', {name: 'delete'}).click()
 
   await expect(dialog).toBeVisible()
-  await expect(page.locator('#confirm-title')).toContainText('Are you sure you want to delete this todo?')
+  await expect(dialog).not.toContainText(defaultContent)
 
-  await page.locator('#confirm-accept', {hasText: "Delete ToDo"}).click()
+  await dialog.getByRole('button', {name: 'Cancel'}).click()
 
-  await expect(dialog).not.toBeVisible()
-  await expect(page.locator('#confirm-title')).toContainText('Are you sure?')
+  await expect(dialog).toBeHidden()
+  await expect(dialog).toContainText(defaultContent)
+  await expect(header).toContainText('Confirm Rejected')
+  expect(await page.locator('.todo-card').count()).toBe(todos.length)
 
-  // await expect(page.locator('body')).toContainText('Todo was successfully destroyed.') // This is working intermittently
-  // expect change to header text (due to accept / reject data-actions)
+  await page.getByTestId(`todo_${todos[0]['id']}`).getByRole('button', {name: 'delete'}).click()
+
+  await expect(dialog).toBeVisible()
+  await expect(dialog).not.toContainText(defaultContent)
+  await expect(dialog.locator('#confirm-title')).toContainText('Are you sure you want to delete this todo?')
+  await expect(dialog.locator('#confirm-body')).toContainText(todos[0]['body'])
+
+  // delete first todo
+  await dialog.getByRole('button', {name: 'Delete ToDo'}).click()
+
+  await expect(dialog).toBeHidden()
+  await expect(dialog).toContainText(defaultContent)
+  expect(await page.locator('.todo-card').count()).toBe(todos.length - 1)
+
+  // navigate to first remaining todo's show page
+  await page.getByRole('link', {name: todos[1]['title']}).click()
+
+  await expect(header).toContainText('Todo Page')
+
+  await expect(dialog).toBeHidden()
+  await expect(todoDialog).toBeHidden()
+
+  // interact with non-Turbo controlled confirm with alternate configuration
+  await page.getByRole('button', {name: 'Not Done'}).click()
+
+  await expect(todoDialog).toBeVisible()
+  await expect(dialog).toBeHidden()
+
+  // mark as done
+  await todoDialog.getByRole('button', {name: 'Done', exact: true}).click()
+
+  await expect(todoDialog).toBeHidden()
+  await expect(dialog).toBeHidden()
+
+  // interact with Turbo controlled confirm on the same page
+  await page.getByRole('button', {name: 'Delete'}).click()
+
+  await expect(todoDialog).toBeHidden()
+  await expect(dialog).toBeVisible()
+
+  await expect(dialog.locator('#confirm-title')).toContainText('You want to delete this ToDo?')
+  await expect(dialog.locator('#confirm-body')).toContainText('This action cannot be undone.')
+
+  // delete second todo
+  await dialog.getByRole('button', {name: 'Yes'}).click()
+
+  // back on the index page
+  await expect(header).toContainText('Todos')
+  expect(await page.locator('.todo-card').count()).toBe(todos.length - 2)
 });
-
-// test custom config
-// test navigation to new page and confirm still works (this should be tested because Turbo persistes between navigations)
