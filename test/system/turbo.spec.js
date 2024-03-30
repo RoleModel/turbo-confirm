@@ -21,7 +21,6 @@ test('Turbo Confirmation Integration', async ({ page }) => {
   const dialog = page.getByTestId('confirm')
   const todoDialog = page.getByTestId('confirm-todo')
   const defaultContent = await dialog.textContent() || ''
-  // const todoCount = await page.locator('.todo-card').count()
 
   await expect(header).toContainText('Todos')
 
