@@ -3,8 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["message"]
 
-  accepted({params: { newMessage }}) {
-    this.messageTarget.innerHTML = newMessage || 'Confirm Accepted'
+  accepted() {
+    this.messageTarget.innerHTML = 'Confirm Accepted'
   }
 
   rejected() {
