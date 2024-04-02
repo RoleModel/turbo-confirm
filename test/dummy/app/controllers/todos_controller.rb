@@ -2,7 +2,7 @@ class TodosController < ApplicationController
   before_action :set_todo, except: %i[index new create setup teardown]
 
   def index
-    @todos = Todo.all.order(:created_at)
+    @todos = Todo.order(:created_at)
   end
 
   def new
