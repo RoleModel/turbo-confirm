@@ -9,6 +9,10 @@ html data-theme-mode="light"
     meta name="viewport" content="width=device-width, initial-scale=1"
   body.app-body data-controller="confirm"
     .app__content
+      - if content_for?(:confirm)
+        = yield :confirm
+      - else
+        = render 'confirm'
       = render 'flash'
-      .container
+      .container.margin-top-lg
         = yield

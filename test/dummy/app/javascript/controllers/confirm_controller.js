@@ -17,7 +17,7 @@ export default class extends Controller {
     event.preventDefault()
     event.stopImmediatePropagation()
 
-    if (await this.turboConfirm.confirm(event.params.message)) {
+    if (await this.turboConfirm.confirm(event.params?.message)) {
       this.#hasAccepted = true
       this.dispatch('accepted')
       event.target.click()
