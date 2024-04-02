@@ -62,7 +62,9 @@ export class TurboConfirm {
    */
   showConfirm(element) {
     element.classList.add(this.#config.activeClass)
-    this.#config.showConfirmCallback(element)
+    if (typeof this.#config.showConfirmCallback === 'function') {
+      this.#config.showConfirmCallback(element)
+    }
   }
 
   /**
@@ -71,7 +73,9 @@ export class TurboConfirm {
    */
   hideConfirm(element) {
     element.classList.remove(this.#config.activeClass)
-    this.#config.hideConfirmCallback(element)
+    if (typeof this.#config.hideConfirmCallback === 'function') {
+      this.#config.hideConfirmCallback(element)
+    }
   }
 
   get dialogSelector() {
