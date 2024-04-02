@@ -1,0 +1,8 @@
+.card-padded.todo-card data-testid=(dom_id todo)
+  = link_to todo.title, todo
+  = button_to icon('delete'), todo, method: :delete, class: 'btn btn-delete btn--icon btn--pill btn--small',
+    data: { \
+      turbo_confirm: 'Are you sure you want to delete this todo?',
+      confirm_details: simple_format(todo.body),
+      confirm_button: 'Delete ToDo',
+    }

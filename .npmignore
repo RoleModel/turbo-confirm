@@ -1,4 +1,9 @@
-test
-jest.config.js
-title_image.png
-.github
+/title_image.png
+/test/
+/test-results/
+/tests-examples/
+/playwright-report/
+/playwright.config.js
+/blob-report/
+/.github/
+/playwright/.cache/

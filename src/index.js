@@ -1,16 +1,23 @@
-import {dispatch} from './lib/utils.js'
-import ConfirmationController from './lib/ConfirmationController.js'
+import { dispatch, TurboConfirmError } from './lib/utils.js'
+import { TurboConfirm } from './lib/TurboConfirm'
 
-const confirm = (_message, _formElement, submitter) => {
-  const confirmationResponse = dispatch('confirm', submitter)
+const start = (options) => {
+  const tc = new TurboConfirm(options)
 
-  dispatch('after-confirm', submitter, {detail: confirmationResponse})
-  return confirmationResponse
+  if (!window.Turbo) throw TurboConfirmError.noTurbo()
+
+  window.Turbo.setConfirmMethod(async (message, formElement, submitter) => {
+    const response = await tc.confirm(message, formElement, submitter)
+
+    if (response) {
+      dispatch('confirm-accept', submitter)
+    } else {
+      dispatch('confirm-reject', submitter)
+    }
+
+    return response
+  })
 }
 
-const init = (options) => {
-  const controller = new ConfirmationController(options)
-  document.addEventListener('rms:confirm', (event) => controller.perform(event))
-}
-
-export default {init, confirm, dispatch}
+export default { start }
+export { TurboConfirm }

@@ -1,0 +1,13 @@
+#custom-confirm.modal-wrapper
+  .modal-wrapper__backdrop.confirm-cancel
+  .modal.text-center.margin-md data-testid="confirm"
+    #modal-body.flex.flex-col.gap-md
+      h3#header
+        | Are you sure?
+      #description.margin-bottom-lg
+        p This action cannot be undone.
+    .flex.justify-center.items-center.gap-sm
+      button#confirm-no.confirm-cancel.btn.btn-primary.btn--outline
+        | Cancel
+      button#confirm-yes.btn.btn-delete
+        | Yes, I'm Sure

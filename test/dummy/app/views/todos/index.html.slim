@@ -1,0 +1,5 @@
+.flex.flex-col.gap-md
+  .flex.justify-between.items-center data-controller="content" data-action="rms:confirm-reject@document->content#rejected"
+    h1 data-testid="header" data-content-target="message" Todos
+    = link_to 'Add Todo', new_todo_path, class: 'btn-primary'
+  = render @todos

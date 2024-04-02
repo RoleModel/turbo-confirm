@@ -1,0 +1,4 @@
+.container.flex.flex-col.gap-md data-controller="content" data-action="confirm:accepted@document->content#accepted confirm:rejected@document->content#rejected"
+  h1 data-testid="header" data-content-target="message" Manual Confirm Test
+  .full-width.flex.justify-center.gap-lg.margin-top-xl
+    = tag.button 'Click Me', type: :button, class: 'btn-delete btn--large', data: { action: 'confirm#perform', confirm_message_param: 'Custom Message Param' }
