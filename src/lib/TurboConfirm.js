@@ -28,9 +28,17 @@ export class TurboConfirm {
       this.#config[key] = value
     }
 
-    this.#controller = new ConfirmationController(this.#config.dialogSelector, this)
+    this.#controller = new ConfirmationController(this)
   }
 
+  /**
+   * Present a confirmation challenge to the user.
+   * @public
+   * @param {string} [message] - The main challenge message; Value of `data-turbo-confirm` attribute.
+   * @param {HTMLFormElement} [_formElement] - (ignored) `form` element that contains the submitter.
+   * @param {HTMLElement} [submitter] - button of input of type submit that triggered the form submission.
+   * @returns {Promise<boolean>} - A promise that resolves to true if the user accepts the challenge or false if they deny it.
+   */
   confirm(message, _formElement, submitter) {
     const clickTarget = this.#clickTarget(submitter)
     const contentMap = this.#contentMap(message, clickTarget)
@@ -38,22 +46,36 @@ export class TurboConfirm {
     return this.confirmWithContent(contentMap)
   }
 
+  /**
+   * Present a confirmation challenge to the user.
+   * @public
+   * @param {Object} contentMap - A map of CSS selectors to HTML content to be inserted into the dialog.
+   * @returns {Promise<boolean>} - A promise that resolves to true if the user accepts the challenge or false if they deny it.
+   */
   confirmWithContent(contentMap) {
-    return new Promise(resolve => this.#controller.showConfirm(contentMap, resolve))
+    return this.#controller.showConfirm(contentMap)
   }
 
+  /**
+   * a function for #controller to call after setup
+   * @private
+   */
   showConfirm(element) {
     element.classList.add(this.#config.activeClass)
-    if (this.#config.showConfirmCallback) {
-      this.#config.showConfirmCallback(element)
-    }
+    this.#config.showConfirmCallback(element)
   }
 
+  /**
+   * a function for #controller to call before teardown
+   * @private
+   */
   hideConfirm(element) {
     element.classList.remove(this.#config.activeClass)
-    if (this.#config.hideConfirmCallback) {
-      this.#config.hideConfirmCallback(element)
-    }
+    this.#config.hideConfirmCallback(element)
+  }
+
+  get dialogSelector() {
+    return this.#config.dialogSelector
   }
 
   get acceptSelector() {
