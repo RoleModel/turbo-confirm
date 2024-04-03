@@ -243,6 +243,16 @@ If you're not already using a CSS or style component framework. I suggest checki
   </dialog>
 ```
 
+## Development
+
+After cloning the repository, you'll need to install dependencies by running `yarn install`.
+
+Next, run `yarn setup` to setup the dummy Rails 7 app located inside the test directory.
+
+The test suite can be run with `yarn test`. Or open the [Playwright] GUI application with `yarn test:ui`
+
+Finally, the dummy Rails app can be run on PORT 3000 with `yarn dev`.
+
 ## Acknowledgments
 
 **Turbo-Confirm** is [MIT-licensed](LICENSE), open-source software from [RoleModel Software][rms].
@@ -255,4 +265,5 @@ If you're not already using a CSS or style component framework. I suggest checki
 [mdn-promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 [mdn-dialog]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog/
 [Optics]: https://github.com/RoleModel/optics/
+[Playwright]: https://playwright.dev/
 [rms]: https://rolemodelsoftware.com/

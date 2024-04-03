@@ -8,7 +8,10 @@
     "lib": "src/lib"
   },
   "scripts": {
-    "test": "npx playwright test"
+    "setup": "rake dummy:setup",
+    "dev": "rake",
+    "test": "npx playwright test --reporter=dot",
+    "test:ui": "npx playwright test --ui"
   },
   "repository": {
     "type": "git",

@@ -8,4 +8,6 @@ Rails.application.routes.draw do
     get :dialog, on: :collection # dialog element based confirm
     get :custom, on: :collection # custom confirm
   end
+
+  root to: 'todos#index'
 end
