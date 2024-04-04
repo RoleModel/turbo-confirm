@@ -4,7 +4,7 @@ task default: :test
 
 desc 'Install dependencies & setup the dummy application'
 task :install do
-  sh 'yarn install'
+  sh 'yarn install --check-files'
   Rake::Task['dummy:setup'].invoke
 end
 
