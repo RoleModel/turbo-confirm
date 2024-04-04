@@ -243,6 +243,16 @@ If you're not already using a CSS or style component framework. I suggest checki
   </dialog>
 ```
 
+## Development
+
+After cloning the repository, you'll need to install dependencies by running `yarn install`.
+
+The test suite can be run with `yarn test`. Or open the [Playwright] GUI application with `yarn test:ui`
+
+Finally, the test app's server can be run on PORT 3000 with `yarn dev`.
+
+Each of these tasks is also accessible via [Rake], if you prefer. Run `rake -T` for details.
+
 ## Acknowledgments
 
 **Turbo-Confirm** is [MIT-licensed](LICENSE), open-source software from [RoleModel Software][rms].
@@ -255,4 +265,6 @@ If you're not already using a CSS or style component framework. I suggest checki
 [mdn-promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 [mdn-dialog]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog/
 [Optics]: https://github.com/RoleModel/optics/
+[Playwright]: https://playwright.dev/
+[Rake]: https://github.com/ruby/rake/
 [rms]: https://rolemodelsoftware.com/

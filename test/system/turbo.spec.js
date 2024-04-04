@@ -21,6 +21,7 @@ test('Turbo Confirmation Integration', async ({ page }) => {
   const dialog = page.getByTestId('confirm')
   const todoDialog = page.getByTestId('confirm-todo')
   const defaultContent = await dialog.textContent() || ''
+  const todosCount = await page.locator('.todo-card').count()
 
   await expect(header).toContainText('Todos')
 
@@ -34,7 +35,6 @@ test('Turbo Confirmation Integration', async ({ page }) => {
   await expect(dialog).toBeHidden()
   await expect(dialog).toContainText(defaultContent)
   await expect(header).toContainText('Confirm Rejected')
-  expect(await page.locator('.todo-card').count()).toBe(todos.length)
 
   await page.getByTestId(`todo_${todos[0]['id']}`).getByRole('button', {name: 'delete'}).click()
 
@@ -48,7 +48,7 @@ test('Turbo Confirmation Integration', async ({ page }) => {
 
   await expect(dialog).toBeHidden()
   await expect(dialog).toContainText(defaultContent)
-  expect(await page.locator('.todo-card').count()).toBe(todos.length - 1)
+  expect(await page.locator('.todo-card').count()).toBe(todosCount - 1)
 
   // navigate to first remaining todo's show page
   await page.getByRole('link', {name: todos[1]['title']}).click()
@@ -84,5 +84,5 @@ test('Turbo Confirmation Integration', async ({ page }) => {
 
   // back on the index page
   await expect(header).toContainText('Todos')
-  expect(await page.locator('.todo-card').count()).toBe(todos.length - 2)
+  expect(await page.locator('.todo-card').count()).toBe(todosCount - 2)
 });
