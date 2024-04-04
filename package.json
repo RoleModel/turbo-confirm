@@ -9,9 +9,9 @@
   },
   "scripts": {
     "setup": "rake dummy:setup",
-    "dev": "rake",
-    "test": "npx playwright test --reporter=dot",
-    "test:ui": "npx playwright test --ui"
+    "dev": "rake dummy:run",
+    "test": "rake test",
+    "test:ui": "rake test_ui"
   },
   "repository": {
     "type": "git",

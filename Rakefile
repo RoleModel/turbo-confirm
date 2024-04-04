@@ -1,14 +1,21 @@
 require 'open3'
 
-task default: 'dummy:run'
+task default: :test
+
+task test: 'dummy:setup' do
+  sh 'npx playwright test --reporter=dot'
+end
+
+task test_ui: 'dummy:setup' do
+  sh 'npx playwright test --ui'
+end
 
 namespace :dummy do
   desc 'Setup the dummy application'
   task :setup do
     Dir.chdir('test/dummy') do
-      Open3.popen2e 'bin/setup' do |_,output|
-        output.each_line { puts _1 }
-      end
+      rm_rf 'node_modules'
+      sh 'bin/setup'
     end
   end
 
@@ -21,4 +28,3 @@ namespace :dummy do
     end
   end
 end
-
