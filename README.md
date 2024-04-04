@@ -251,7 +251,7 @@ The test suite can be run with `yarn test`. Or open the [Playwright] GUI applica
 
 Finally, the test app's server can be run on PORT 3000 with `yarn dev`.
 
-Each of these tasks are accessible via [Rake] as well, if you prefer. You can run `rake -T` for details.
+Each of these tasks is also accessible via [Rake], if you prefer. You can run `rake -T` for details.
 
 ## Acknowledgments
 
