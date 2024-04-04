@@ -253,6 +253,8 @@ The test suite can be run with `yarn test`. Or open the [Playwright] GUI applica
 
 Finally, the dummy Rails app can be run on PORT 3000 with `yarn dev`.
 
+There are also rake tasks, if you prefer.  See [Rakefile](Rakefile) for details.
+
 ## Acknowledgments
 
 **Turbo-Confirm** is [MIT-licensed](LICENSE), open-source software from [RoleModel Software][rms].

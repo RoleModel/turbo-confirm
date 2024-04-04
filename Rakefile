@@ -2,6 +2,11 @@ require 'open3'
 
 task default: :test
 
+task :install do
+  sh 'yarn install'
+  Rake::Task['dummy:setup'].invoke
+end
+
 task test: 'dummy:setup' do
   sh 'npx playwright test --reporter=dot'
 end
@@ -14,7 +19,6 @@ namespace :dummy do
   desc 'Setup the dummy application'
   task :setup do
     Dir.chdir('test/dummy') do
-      rm_rf 'node_modules'
       sh 'bin/setup'
     end
   end
