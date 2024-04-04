@@ -2,15 +2,17 @@ require 'open3'
 
 task default: :test
 
+desc 'Install dependencies & setup the dummy application'
 task :install do
   sh 'yarn install'
-  Rake::Task['dummy:setup'].invoke
 end
 
+desc 'Run Playwright tests'
 task test: 'dummy:setup' do
   sh 'npx playwright test --reporter=dot'
 end
 
+desc 'Open the Playwright test runner app'
 task test_ui: 'dummy:setup' do
   sh 'npx playwright test --ui'
 end

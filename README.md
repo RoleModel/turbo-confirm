@@ -245,15 +245,13 @@ If you're not already using a CSS or style component framework. I suggest checki
 
 ## Development
 
-After cloning the repository, you'll need to install dependencies by running `yarn install`.
-
-Next, run `yarn setup` to setup the dummy Rails 7 app located inside the test directory.
+After cloning the repository, you'll need to install dependencies and setup the dummy/test app by running `yarn install`.
 
 The test suite can be run with `yarn test`. Or open the [Playwright] GUI application with `yarn test:ui`
 
-Finally, the dummy Rails app can be run on PORT 3000 with `yarn dev`.
+Finally, the test app's server can be run on PORT 3000 with `yarn dev`.
 
-There are also rake tasks, if you prefer.  See [Rakefile](Rakefile) for details.
+All of these are accessible via [Rake], if you prefer. You can run `rake -T` for available tasks with descriptions.
 
 ## Acknowledgments
 
@@ -268,4 +266,5 @@ There are also rake tasks, if you prefer.  See [Rakefile](Rakefile) for details.
 [mdn-dialog]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog/
 [Optics]: https://github.com/RoleModel/optics/
 [Playwright]: https://playwright.dev/
+[Rake]: https://github.com/ruby/rake/
 [rms]: https://rolemodelsoftware.com/
