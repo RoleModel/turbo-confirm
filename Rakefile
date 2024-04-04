@@ -5,6 +5,7 @@ task default: :test
 desc 'Install dependencies & setup the dummy application'
 task :install do
   sh 'yarn install'
+  Rake::Task['dummy:setup'].invoke
 end
 
 desc 'Run Playwright tests'

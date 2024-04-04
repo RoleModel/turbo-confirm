@@ -8,7 +8,6 @@
     "lib": "src/lib"
   },
   "scripts": {
-    "postinstall": "rake dummy:setup",
     "dev": "rake dummy:run",
     "test": "rake test",
     "test:ui": "rake test_ui"
