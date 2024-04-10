@@ -1,5 +1,5 @@
 import { dispatch, TurboConfirmError } from './lib/utils.js'
-import { TurboConfirm } from './lib/TurboConfirm'
+import { TurboConfirm } from './lib/TurboConfirm.js'
 
 const start = (options) => {
   const tc = new TurboConfirm(options)
