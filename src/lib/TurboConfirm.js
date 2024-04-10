@@ -1,4 +1,4 @@
-import ConfirmationController from './ConfirmationController'
+import ConfirmationController from './ConfirmationController.js'
 
 export class TurboConfirm {
   #controller
