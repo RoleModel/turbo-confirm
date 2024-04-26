@@ -18,8 +18,10 @@
       .card--actions.flex.justify-between
         button.btn.btn-primary data-controller="todo" data-action="todo#confirmStatus"
           = @todo.done? ? 'Done' : 'Not Done'
-        = button_to 'Delete', @todo, method: :delete, class: 'btn btn-delete',
+        = link_to 'Delete', @todo, class: 'btn btn-delete',
           data: { \
             turbo_confirm: 'You want to delete this ToDo?',
-            confirm_button: 'Yes',
+            confirm_details: @todo.body,
+            confirm_button: 'Delete it!',
+            turbo_method: :delete,
           }

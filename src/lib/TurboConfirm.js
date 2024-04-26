@@ -115,10 +115,8 @@ export class TurboConfirm {
   }
 
   #clickTarget(target) {
-    if (!target) return
-    // in the case of a turbo form link, the target is the document.
-    // normal form submissions still have the original submitter as the target.
-    const element = target.activeElement ?? target
+    // in the case of a turbo form link, Turbo fails to forward the submitter.
+    const element = target ?? document.activeElement
 
     return element.closest('[data-turbo-confirm]')
   }
