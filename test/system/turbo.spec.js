@@ -71,16 +71,16 @@ test('Turbo Confirmation Integration', async ({ page }) => {
   await expect(dialog).toBeHidden()
 
   // interact with Turbo controlled confirm on the same page
-  await page.getByRole('button', {name: 'Delete'}).click()
+  await page.getByRole('link', {name: 'Delete'}).click()
 
   await expect(todoDialog).toBeHidden()
   await expect(dialog).toBeVisible()
 
   await expect(dialog.locator('#confirm-title')).toContainText('You want to delete this ToDo?')
-  await expect(dialog.locator('#confirm-body')).toContainText('This action cannot be undone.')
+  await expect(dialog.locator('#confirm-body')).toContainText(todos[1]['body'])
 
   // delete second todo
-  await dialog.getByRole('button', {name: 'Yes'}).click()
+  await dialog.getByRole('button', {name: 'Delete it!'}).click()
 
   // back on the index page
   await expect(header).toContainText('Todos')
