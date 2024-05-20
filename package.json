@@ -1,16 +1,16 @@
 {
   "name": "@rolemodel/turbo-confirm",
-  "type": "module",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Drop-in upgrade for Rails' data-turbo-confirm feature to support custom HTML dialogs.",
-  "main": "src/index.js",
-  "directories": {
-    "lib": "src/lib"
-  },
+  "module": "dist/turbo-confirm.esm.js",
+  "main": "dist/turbo-confirm.cjs.js",
+  "files": ["dist/*.js"],
   "scripts": {
     "dev": "rake dummy:run",
     "test": "rake test",
-    "test:ui": "rake test_ui"
+    "test:ui": "rake test_ui",
+    "clean": "rm -fr dist",
+    "build": "rollup -c"
   },
   "repository": {
     "type": "git",
@@ -19,21 +19,29 @@
   "keywords": [
     "rails",
     "turbo",
-    "ujs",
-    "rails-ujs",
+    "hotwire",
+    "stimulus",
     "data-confirm",
     "data-turbo-confirm",
     "confirmation",
-    "dialog"
+    "dialog",
+    "ujs",
+    "rails-ujs"
   ],
   "author": "RoleModel Software",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "bugs": {
     "url": "https://github.com/RoleModel/turbo-confirm/issues"
   },
   "homepage": "https://github.com/RoleModel/turbo-confirm#readme",
   "devDependencies": {
     "@playwright/test": "^1.42.1",
-    "@types/node": "^20.11.30"
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@types/node": "^20.11.30",
+    "rollup": "^4.17.2"
   }
 }
