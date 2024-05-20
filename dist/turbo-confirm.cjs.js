@@ -1,5 +1,5 @@
 /**
- * Turbo-Confirm v2.0.2
+ * Turbo-Confirm v2.0.3
  * Copyright © 2024 RoleModel Software
  */
 
