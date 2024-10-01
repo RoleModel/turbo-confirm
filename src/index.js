@@ -2,11 +2,10 @@ import { dispatch, TurboConfirmError } from './lib/utils.js'
 import { TurboConfirm } from './lib/TurboConfirm.js'
 
 const start = (options) => {
+  if (!window.Turbo) throw TurboConfirmError.noTurbo()
   const tc = new TurboConfirm(options)
 
-  if (!window.Turbo) throw TurboConfirmError.noTurbo()
-
-  window.Turbo.setConfirmMethod(async (message, formElement, submitter) => {
+  window.Turbo.config.forms.confirm = async (message, formElement, submitter) => {
     const response = await tc.confirm(message, formElement, submitter)
 
     if (response) {
@@ -16,7 +15,7 @@ const start = (options) => {
     }
 
     return response
-  })
+  }
 }
 
 export default { start }
