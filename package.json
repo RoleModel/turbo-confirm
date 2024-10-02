@@ -4,7 +4,7 @@
   "version": "2.1.0",
   "description": "Drop-in upgrade for Rails' data-turbo-confirm feature to support custom HTML dialogs.",
   "main": "src/index.js",
-  "dependencies": {
+  "peerDependencies": {
     "@hotwired/turbo": ">= 8.0.6"
   },
   "directories": {
