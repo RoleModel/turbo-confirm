@@ -7,6 +7,11 @@ test.beforeAll(async ({ request }) => {
   const response = await request.post('/todos/setup')
   expect(response.ok()).toBeTruthy()
   todos = await response.json()
+
+  expect(todos.length).toBe(3)
+  todos.forEach(todo => {
+    expect(Object.keys(todo)).toEqual(expect.arrayContaining(['id', 'title', 'body']))
+  })
 })
 
 test.afterAll(async ({ request }) => {
@@ -76,8 +81,8 @@ test('Turbo Confirmation Integration', async ({ page }) => {
   await expect(todoDialog).toBeHidden()
   await expect(dialog).toBeVisible()
 
-  await expect(dialog.locator('#confirm-title')).toContainText('You want to delete this ToDo?')
-  await expect(dialog.locator('#confirm-body')).toContainText(todos[1]['body'])
+  await expect(dialog.getByText('You want to delete this ToDo?')).toBeVisible()
+  await expect(dialog.getByText(todos[1]['body'])).toBeVisible()
 
   // delete second todo
   await dialog.getByRole('button', {name: 'Delete it!'}).click()

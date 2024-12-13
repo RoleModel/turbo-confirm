@@ -5,7 +5,7 @@ const start = (options) => {
   if (!window.Turbo) throw TurboConfirmError.noTurbo()
   const tc = new TurboConfirm(options)
 
-  window.Turbo.config.forms.confirm = async (message, formElement, submitter) => {
+  const confirmationHandler = async (message, formElement, submitter) => {
     const response = await tc.confirm(message, formElement, submitter)
 
     if (response) {
@@ -15,6 +15,12 @@ const start = (options) => {
     }
 
     return response
+  }
+
+  if (window.Turbo.config) {
+    window.Turbo.config.forms.confirm = confirmationHandler
+  } else {
+    window.Turbo.setConfirmMethod(confirmationHandler)
   }
 }
 
