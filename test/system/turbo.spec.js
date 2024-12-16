@@ -81,8 +81,8 @@ test('Turbo Confirmation Integration', async ({ page }) => {
   await expect(todoDialog).toBeHidden()
   await expect(dialog).toBeVisible()
 
-  await expect(dialog.getByText('You want to delete this ToDo?')).toBeVisible()
-  await expect(dialog.getByText(todos[1]['body'])).toBeVisible()
+  await expect(dialog.locator('#confirm-title')).toContainText('You want to delete this ToDo?')
+  await expect(dialog.locator('#confirm-body')).toContainText(todos[1]['body'])
 
   // delete second todo
   await dialog.getByRole('button', {name: 'Delete it!'}).click()
