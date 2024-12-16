@@ -7,6 +7,11 @@ test.beforeAll(async ({ request }) => {
   const response = await request.post('/todos/setup')
   expect(response.ok()).toBeTruthy()
   todos = await response.json()
+
+  expect(todos.length).toBe(3)
+  todos.forEach(todo => {
+    expect(Object.keys(todo)).toEqual(expect.arrayContaining(['id', 'title', 'body']))
+  })
 })
 
 test.afterAll(async ({ request }) => {
