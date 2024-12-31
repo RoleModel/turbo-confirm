@@ -1,12 +1,9 @@
 {
   "name": "@rolemodel/turbo-confirm",
   "type": "module",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Drop-in upgrade for Rails' data-turbo-confirm feature to support custom HTML dialogs.",
   "main": "src/index.js",
-  "peerDependencies": {
-    "@hotwired/turbo": ">= 8.0.6"
-  },
   "directories": {
     "lib": "src/lib"
   },
@@ -36,7 +33,7 @@
   },
   "homepage": "https://github.com/RoleModel/turbo-confirm#readme",
   "devDependencies": {
-    "@playwright/test": "^1.47",
+    "@playwright/test": "^1.49.1",
     "@types/node": "^20.11.30"
   }
 }
