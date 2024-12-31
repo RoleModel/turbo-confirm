@@ -37,7 +37,7 @@ TC.start()
 
 ## Usage
 
-Turbo's confirmation interface is exercised most commonly via `button_to` (example shown in [slim] templating syntax)
+Turbo's confirmation interface is exercised most commonly via `button_to` (examples shown in [slim] templating syntax)
 
 ```ruby
   = button_to 'Delete ToDo', todo_path(todo),
@@ -56,6 +56,8 @@ or `link_to` with a `data-turbo-method` attribute.
       turbo_confirm: 'Are you sure?',
     }
 ```
+
+Then add markup to `app/views/layouts/application.html.slim` to render a dialog. See the [Example Template](#example-template) section below.
 
 ### Customizing more than just a message
 
