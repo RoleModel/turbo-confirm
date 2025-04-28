@@ -14,13 +14,19 @@ A drop-in upgrade for Rails `data-turbo-confirm`.
 ## Installation
 
 ```bash
-npm install @rolemodel/turbo-confirm
+bin/importmap pin @rolemodel/turbo-confirm
 ```
 
 or
 
 ```bash
 yarn add @rolemodel/turbo-confirm
+```
+
+or
+
+```bash
+npm install @rolemodel/turbo-confirm
 ```
 
 ## Setup
@@ -78,6 +84,8 @@ example usage of default _contentSlots_ via `button_to` in [slim] templating syn
       confirm_button: 'Delete ToDo',
     }
 ```
+
+See also [this discussion][custom-content-slots], for instructions on adding your own custom ContentSlots.
 
 **note:** It's recommended that you have sensible default content already populating each of your configured _contentSlots_ within your app's confirmation dialog template. Such that every confirmation trigger is not required to supply custom content for every _contentSlot_. See our [example template](#example-template) for a good starting point.
 
@@ -271,3 +279,4 @@ Each of these tasks is also accessible via [Rake], if you prefer. Run `rake -T` 
 [Playwright]: https://playwright.dev/
 [Rake]: https://github.com/ruby/rake/
 [rms]: https://rolemodelsoftware.com/
+[custom-content-slots]: https://github.com/RoleModel/turbo-confirm/discussions/52#discussioncomment-12956075
