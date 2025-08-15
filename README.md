@@ -42,7 +42,8 @@ TC.start()
 
 Then add your custom dialog markup to your application's layout.  See the [Example Template](#example-template) below for a good starting point that works with the default configuration.
 
-**note:** `@hotwired/turbo-rails` must be imported prior to calling the `start` function. This is so **Turbo-Confirm** can coordinate with Turbo regarding confirmation handling. The `start` function is also where you may override default behavior by passing a configuration object. See the [configuration table](#configuration) for available options and their default values.
+> [!IMPORTANT]
+> `@hotwired/turbo-rails` must be imported prior to calling the `start` function. This is so **Turbo-Confirm** can coordinate with Turbo regarding confirmation handling. The `start` function is also where you may override default behavior by passing a configuration object. See the [configuration table](#configuration) for available properties and their default values.
 
 ## Basic Usage
 
@@ -87,9 +88,10 @@ example in [slim] templating syntax:
     }
 ```
 
-See also [this discussion][custom-content-slots], for instructions on adding your own custom ContentSlots.
+See also [this discussion][custom-slot-discussion], for instructions on defining additional dynamic ContentSlots.
 
-**note:** we recommend populating your dialog template with sensible default content and only triggering the dynamic ContentSlots where necessary. See the [example template](#example-template) for reference.
+> [!TIP]
+> we recommend populating your dialog template with sensible default content and only triggering the dynamic ContentSlots where necessary. See the [example template](#example-template) for reference.
 
 ## Manual Usage
 
@@ -127,7 +129,8 @@ tc.confirmWithContent({
 }).then(response => { response ? /* accepted */ : /* denied */ })
 ```
 
-**note:** The `TurboConfirm` constructor creates a brand new instance that will not share configuration with the one Turbo-Rails is using.  For that reason, a config object may be passed into the `TurboConfirm` constructor. See [configuration docs](#configuration) for available options and their default values.
+> [!NOTE]
+> The `TurboConfirm` constructor creates a brand new instance that will not share configuration with the one Turbo-Rails is using.  For that reason, a config object may be passed into the `TurboConfirm` constructor. See the [configuration table](#configuration) for available properties and their default values.
 
 ## Stimulus Wrapper
 
@@ -174,7 +177,7 @@ export default class extends Controller {
 
 ## Configuration
 
-|  Option               | description                                                                                                                                | default value                       |
+| Property              | Description                                                                                                                                | Default Value                       |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------- |
 | `dialogSelector`      | Global CSS selector used to locate your dialog HTML (an ID selector is recommended)                                                        | `'#confirm'`                        |
 | `activeClass`         | HTML class that causes your dialog element to become visible. (note: you're responsible for defining necessary style rules)                | `'modal--active'`                   |
@@ -279,4 +282,4 @@ Each of these tasks is also accessible via [Rake], if you prefer. Run `rake -T` 
 [Playwright]: https://playwright.dev/
 [Rake]: https://github.com/ruby/rake/
 [rms]: https://rolemodelsoftware.com/
-[custom-content-slots]: https://github.com/RoleModel/turbo-confirm/discussions/52#discussioncomment-12956075
+[custom-slot-discussion]: https://github.com/RoleModel/turbo-confirm/discussions/52#discussioncomment-12956075
