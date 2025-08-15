@@ -40,9 +40,11 @@ import TC from "@rolemodel/turbo-confirm"
 TC.start()
 ```
 
-**note:** `@hotwired/turbo-rails` must be imported prior to calling the `start` function. This is so **Turbo-Confirm** can coordinate with Turbo regarding confirmation handling. The `start` function is also where you may override default behavior by passing a configuration object. See [configuration docs](#configuration) for available options and their default values.
+Then add your custom dialog markup to your application's layout.  See the [Example Template](#example-template) below for a good starting point that works with the default configuration.
 
-## Usage
+**note:** `@hotwired/turbo-rails` must be imported prior to calling the `start` function. This is so **Turbo-Confirm** can coordinate with Turbo regarding confirmation handling. The `start` function is also where you may override default behavior by passing a configuration object. See the [configuration table](#configuration) for available options and their default values.
+
+## Basic Usage
 
 Turbo's confirmation interface is exercised most commonly via `button_to` (examples shown in [slim] templating syntax)
 
@@ -64,16 +66,16 @@ or `link_to` with a `data-turbo-method` attribute.
     }
 ```
 
-Then add markup to `app/views/layouts/application.html.slim` to render a dialog. See the [Example Template](#example-template) section below.
+## Dynamic Content Slots
 
-### Customizing more than just a message
+By setting additional, optional data attributes on the confirmation trigger, **Turbo-Confirm** adapts dynamically in different contexts.
 
-**Turbo-Confirm** supports other custom content beyond a simple message, by setting additional data attributes on the confirmation trigger. Henceforth referred to as _contentSlots_, this feature is both infinitely configurable and completely optional. Out of the box **Turbo-Confirm** supports two:
+Out of the box, **Turbo-Confirm** ships with two optional ContentSlots:
 
-- **body** activated by a `data-confirm-details` attribute on the confirmation trigger. The attribute's value will be assigned to the element matching the `#confirm-body` selector.
-- **acceptText** activated by a `data-confirm-button` attribute on the confirmation trigger. The attribute's value will be assigned to the element matching the `#confirm-accept` selector (same as the default value of the `acceptSelector` configuration property)
+- **body** activated by a `data-confirm-details` attribute on the confirmation trigger. The attribute's value will be assigned to the element matching the selector `#confirm-body`
+- **acceptText** activated by a `data-confirm-button` attribute on the confirmation trigger. The attribute's value will be assigned to the element matching the selector `#confirm-accept`
 
-example usage of default _contentSlots_ via `button_to` in [slim] templating syntax:
+example in [slim] templating syntax:
 
 ```ruby
   = button_to 'Delete ToDo', todo_path(todo),
@@ -87,11 +89,11 @@ example usage of default _contentSlots_ via `button_to` in [slim] templating syn
 
 See also [this discussion][custom-content-slots], for instructions on adding your own custom ContentSlots.
 
-**note:** It's recommended that you have sensible default content already populating each of your configured _contentSlots_ within your app's confirmation dialog template. Such that every confirmation trigger is not required to supply custom content for every _contentSlot_. See our [example template](#example-template) for a good starting point.
+**note:** we recommend populating your dialog template with sensible default content and only triggering the dynamic ContentSlots where necessary. See the [example template](#example-template) for reference.
 
-### Manual Usage
+## Manual Usage
 
-Though **Turbo-Confirm** was primarily designed to serve as [turbo-rails]' confirmation interface, it may also be invoked directly by application code. In almost the same manner as the native `window.confirm`.  While native confirm pauses execution until the user accepts or declines, **Turbo-Confirm** is [Promise][mdn-promise] based.
+**Turbo-Confirm** can also serve as a general replacement for the native `window.confirm` function. Though it returns a [Promise][mdn-promise] instead of pausing execution.
 
 e.g.
 
@@ -111,7 +113,7 @@ const tc = new TurboConfirm({ /* Any Custom Configuration */ })
 tc.confirm()
 ```
 
-**Turbo-Confirm** has an additional public method, `confirmWithContent` that expects a _contentMap_ object where the keys are content slot selectors and the values are the content you want displayed in each selected element.
+**Turbo-Confirm** has one additional public method, `confirmWithContent` that expects a _contentMap_ object where the keys are content slot selectors and the values are the content you want displayed in each selected element.
 
 e.g.
 
@@ -127,9 +129,9 @@ tc.confirmWithContent({
 
 **note:** The `TurboConfirm` constructor creates a brand new instance that will not share configuration with the one Turbo-Rails is using.  For that reason, a config object may be passed into the `TurboConfirm` constructor. See [configuration docs](#configuration) for available options and their default values.
 
-### Stimulus Example
+## Stimulus Wrapper
 
-While Turbo will invoke **Turbo-Confirm** for you in the case of a form submission (like `button_to`) or form link (like `link_to` with a `data-turbo-method`), in the case of a regular link or a button that does not submit a form, you're on your own.  But **Turbo-Confirm** can help.
+While Turbo will invoke **Turbo-Confirm** for you in the case of a form submission (like `button_to`) or form link (like `link_to` with a `data-turbo-method`), in the case of a regular link or a button that does not submit a form, you're on your own.  But **Turbo-Confirm** can help!
 
 For those cases, a simple [Stimulus] wrapper around **Turbo-Confirm** is a good solution.
 
@@ -231,14 +233,13 @@ Based on the default configuration, the following template is suitable.
   </div>
 ```
 
-### Native Dialogs
+## Native Dialogs
 
 If you're not already using a CSS or style component framework. I suggest checking out [Optics].  Alternatively, the native [dialog][mdn-dialog] element is fully supported by modern browsers and removes much of the styling burden that would otherwise be required to emulate such behavior with only a `div`.
 
 **Turbo-Confirm** fully supports the native dialog element, including dismissal via `esc` key.
 
 ```HTML
-  <!-- not visible without an [open] attribute, which **Turbo-Confirm** will handle for you -->
   <dialog id="confirm" class="modal">
     <div class="modal__content">
       <h3 id="confirm-title">Replaced by `data-turbo-confirm` attribute</h3>
@@ -271,7 +272,6 @@ Each of these tasks is also accessible via [Rake], if you prefer. Run `rake -T` 
 [RoleModel Software][rms] is a world-class, collaborative software development team dedicated to delivering the highest quality custom web and mobile software solutions while cultivating a work environment where community, family, learning, and mentoring flourish.
 
 [slim]: https://github.com/slim-template/slim
-[turbo-rails]: https://github.com/hotwired/turbo-rails/
 [Stimulus]: https://github.com/hotwired/stimulus/
 [mdn-promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 [mdn-dialog]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog/
