@@ -214,13 +214,19 @@ export default class extends Controller {
   }
 ```
 
+## Inert Attribute
+
+The [inert][mdn-inert] attribute makes elements non-interactive. This is useful in preventing hidden elements from obscuring the user's intented click target, which is a common issue when you have multiple hidden dialogs on the page.
+
+**Turbo-Confirm** will automatically add an `inert` attribute to your confirmation element when it becomes hidden and then remove it once it becomes visible again. We also recommend that you include this attribute in your template.  See the example below for reference.
+
 ## Example Template
 
 Based on the default configuration, the following template is suitable.
 
 ```HTML
   <!-- not visible until a 'modal--active' class is applied to the #confirm element -->
-  <div id="confirm" class="modal">
+  <div id="confirm" class="modal" inert>
     <div class="modal__backdrop confirm-cancel"></div>
     <div class="modal__content">
       <h3 id="confirm-title">Replaced by `data-turbo-confirm` attribute</h3>
@@ -243,7 +249,7 @@ If you're not already using a CSS or style component framework. I suggest checki
 **Turbo-Confirm** fully supports the native dialog element, including dismissal via `esc` key.
 
 ```HTML
-  <dialog id="confirm" class="modal">
+  <dialog id="confirm" class="modal" inert>
     <div class="modal__content">
       <h3 id="confirm-title">Replaced by `data-turbo-confirm` attribute</h3>
       <div id="confirm-body">
@@ -278,6 +284,7 @@ Each of these tasks is also accessible via [Rake], if you prefer. Run `rake -T` 
 [Stimulus]: https://github.com/hotwired/stimulus/
 [mdn-promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 [mdn-dialog]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog/
+[mdn-inert]: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/inert
 [Optics]: https://github.com/RoleModel/optics/
 [Playwright]: https://playwright.dev/
 [Rake]: https://github.com/ruby/rake/
