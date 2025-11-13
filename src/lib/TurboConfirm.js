@@ -61,6 +61,7 @@ export class TurboConfirm {
    * @private
    */
   showConfirm(element) {
+    element.inert = false
     element.classList.add(this.#config.activeClass)
     if (typeof this.#config.showConfirmCallback === 'function') {
       this.#config.showConfirmCallback(element)
@@ -72,6 +73,7 @@ export class TurboConfirm {
    * @private
    */
   hideConfirm(element) {
+    element.inert = true
     element.classList.remove(this.#config.activeClass)
     if (typeof this.#config.hideConfirmCallback === 'function') {
       this.#config.hideConfirmCallback(element)
