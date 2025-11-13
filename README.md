@@ -216,7 +216,7 @@ export default class extends Controller {
 
 ## Inert Attribute
 
-The [inert][mdn-inert] attribute makes elements non-interactive. This is useful in preventing hidden elements from obscuring the user's intented click target, which is a common issue when you have multiple hidden dialogs on the page.
+The [inert][mdn-inert] attribute makes elements non-interactive. This is useful in preventing hidden elements from obscuring the user's intended click target, which is a common issue when you have multiple hidden dialogs on the page.
 
 **Turbo-Confirm** will automatically add an `inert` attribute to your confirmation element when it becomes hidden and then remove it once it becomes visible again. We also recommend that you include this attribute in your template.  See the example below for reference.
 
