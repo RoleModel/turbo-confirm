@@ -1,5 +1,13 @@
-.flex.flex-col.gap-md
-  .flex.justify-between.items-center data-controller="content" data-action="rms:confirm-reject@document->content#rejected"
-    h1 data-testid="header" data-content-target="message" Todos
-    = link_to 'Add Todo', new_todo_path, class: 'btn-primary'
-  = render @todos
+.flex.flex-col.gap-xl
+  .flex.flex-col.gap-md
+    .flex.justify-between.items-center data-controller="content" data-action="rms:confirm-reject@document->content#rejected"
+      h1 data-testid="header" data-content-target="message" Todos
+      = link_to 'Add Todo', new_todo_path, class: 'btn-primary'
+    = render @todos
+
+  - if alt_confirm_enabled?
+    .divider
+    .flex
+      h2 Alternative Confirmations
+    .flex.flex-col.gap-md data-testid="alternative-confirmations"
+      = render collection: @todos, partial: 'todo_with_alt_confirm', as: :todo

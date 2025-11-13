@@ -102,7 +102,7 @@ export class TurboConfirm {
         contentMap[this.#slotSelector(slotName)] = this.#slotContent(slotName, sourceElement)
       }
     }
-
+    contentMap.dialogSelectorOverride = sourceElement.dataset.confirmElement
     return contentMap
   }
 

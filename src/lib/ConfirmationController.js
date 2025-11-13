@@ -2,6 +2,7 @@ import { TurboConfirmError } from './utils.js'
 
 export default class ConfirmationController {
   initialContent
+  #dialogSelectorOverride
   #resolve
 
   constructor(delegate) {
@@ -12,7 +13,8 @@ export default class ConfirmationController {
   }
 
   showConfirm(contentMap) {
-    this.#storeInitialContent()
+    this.#storeInitialContent(contentMap.dialogSelectorOverride)
+    delete contentMap.dialogSelectorOverride
 
     for(const [selector, content] of Object.entries(contentMap)) {
       const target = this.element.querySelector(selector)
@@ -44,7 +46,7 @@ export default class ConfirmationController {
   }
 
   get element() {
-    return document.querySelector(this.delegate.dialogSelector)
+    return document.querySelector(this.#dialogSelectorOverride ?? this.delegate.dialogSelector)
   }
 
   #teardown() {
@@ -67,8 +69,9 @@ export default class ConfirmationController {
     this.element.removeEventListener('cancel', this.deny)
   }
 
-  #storeInitialContent() {
+  #storeInitialContent(dialogSelector) {
     try {
+      this.#dialogSelectorOverride = dialogSelector
       this.initialContent = this.element.innerHTML
     } catch (error) {
       throw TurboConfirmError.missingDialog(this.delegate.dialogSelector, error)
@@ -78,6 +81,7 @@ export default class ConfirmationController {
   #restoreInitialContent() {
     try {
       this.element.innerHTML = this.initialContent
+      this.#dialogSelectorOverride = null
     } catch {
       /**
        * this happens when accepting the confirmation challenge results in visiting a page
