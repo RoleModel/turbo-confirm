@@ -4,12 +4,11 @@ on:
   release:
     types: [published]
 
-permissions:
-  contents: read
-  packages: write
-
 jobs:
   build-npm:
+    permissions:
+      contents: read
+      id-token: write  # Required for OIDC
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,9 +16,11 @@ jobs:
         with:
           registry-url: 'https://registry.npmjs.org'
       - run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
   build-gph:
+    permissions:
+      contents: read
+      packages: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
