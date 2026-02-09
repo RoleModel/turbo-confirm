@@ -6,6 +6,7 @@ on:
     branches: [ main ]
 permissions:
   contents: read
+  checks: write
 jobs:
   test:
     timeout-minutes: 5
@@ -21,7 +22,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           cache: yarn
-          cache-dependency-path: 'yarn.lock'
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
