@@ -1,7 +1,7 @@
 # Turbo Confirm
 
 <div>
-  <img src="https://github.com/RoleModel/turbo-confirm/actions/workflows/playwright.yml/badge.svg" alt="CI">
+  <img src="https://github.com/RoleModel/turbo-confirm/actions/workflows/ci.yml/badge.svg" alt="CI">
   <img src="https://img.shields.io/npm/dw/@rolemodel/turbo-confirm?label=npm" alt="npm">
   <img src="https://data.jsdelivr.com/v1/package/npm/@rolemodel/turbo-confirm/badge?style=rounded" alt="jsDelivr">
 </div>
