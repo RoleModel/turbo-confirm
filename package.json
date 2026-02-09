@@ -2,7 +2,7 @@
   "name": "@rolemodel/turbo-confirm",
   "type": "module",
   "version": "2.2.0",
-  "description": "Drop-in upgrade for Rails' data-turbo-confirm feature to support custom HTML dialogs.",
+  "description": "The easiest way to enable custom data-turbo-confirm dialogs in Rails.",
   "main": "src/index.js",
   "directories": {
     "lib": "src/lib"
@@ -17,14 +17,12 @@
     "url": "git+https://github.com/RoleModel/turbo-confirm.git"
   },
   "keywords": [
-    "rails",
-    "turbo",
-    "ujs",
-    "rails-ujs",
+    "Rails",
+    "Turbo",
     "data-confirm",
     "data-turbo-confirm",
-    "confirmation",
-    "dialog"
+    "Dialog",
+    "Hotwired"
   ],
   "author": "RoleModel Software",
   "license": "MIT",
