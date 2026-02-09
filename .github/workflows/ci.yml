@@ -29,7 +29,7 @@ jobs:
       - name: Install Ruby for Test App
         uses: ruby/setup-ruby@v1
         with:
-          bundler-cache: true
+          ruby-version-file: test/dummy/.ruby-version
 
       - name: Setup Test App
         working-directory: ./test/dummy
