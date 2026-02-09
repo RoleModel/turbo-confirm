@@ -14,25 +14,34 @@ jobs:
     env:
       CI: true
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Enable corepack
+      - name: Enable Corepack
         shell: bash
         run: corepack enable
 
-      - name: Set up node
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           cache: yarn
 
-      - name: Set up Ruby
+      - name: Install Ruby for Test App
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version-file: test/dummy/.ruby-version
           bundler-cache: true
 
-      - name: Install dependencies & Run tests
-        run: yarn test
+      - name: Setup Test App
+        working-directory: ./test/dummy
+        run: bin/setup --skip-server
+
+      - name: Install Turbo-Confirm Dependencies
+        run: |
+          yarn install
+          yarn playwright install --with-deps
+
+      - name: Run Test Suite
+        run: yarn playwright test
 
       - uses: actions/upload-artifact@v4
         if: always()
