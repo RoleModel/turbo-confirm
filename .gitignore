@@ -4,9 +4,11 @@
 /blob-report/
 /playwright/.cache/
 /yarn-error.log
+.yarn
 
 # Ignore bundler config.
 /test/dummy/.bundle
+/test/dummy/.yarn
 
 # Ignore all logfiles and tempfiles.
 /test/dummy/log/*
