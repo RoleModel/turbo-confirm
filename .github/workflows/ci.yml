@@ -26,6 +26,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
+          ruby-version-file: test/dummy/.ruby-version
           bundler-cache: true
 
       - name: Install dependencies & Run tests
