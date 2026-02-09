@@ -33,7 +33,9 @@ jobs:
 
       - name: Setup Test App
         working-directory: ./test/dummy
-        run: bin/setup --skip-server
+        run: |
+          bundle install
+          bin/setup --skip-server
 
       - name: Install Turbo-Confirm Dependencies
         run: |
