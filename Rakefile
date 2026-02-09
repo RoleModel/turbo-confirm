@@ -28,7 +28,7 @@ namespace :dummy do
   end
 
   desc 'Run the dummy application on the specified port (default: 3000)'
-  task :run, %i[port] => :setup do
+  task :run, %i[port] => :setup do |_t, args|
     Dir.chdir('test/dummy') do
       Open3.popen2e({ 'PORT' => args.fetch(:port, '3000') }, 'bin/dev') do |_, output|
         output.each_line { puts _1 }
