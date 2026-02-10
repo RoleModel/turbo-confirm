@@ -1,0 +1,25 @@
+doctype html
+html
+  head = render 'head'
+  body.app-body data-controller="confirm"
+    = turbo_frame_tag 'modal' do
+      .modal-wrapper(
+        class=class_names('modal-wrapper--active' => response.message.starts_with?('Unprocessable'))
+        data-controller="toggle"
+        data-toggle-perform-on-connect-value=(response.message == 'OK')
+        data-toggle-perform-toggle-inert-value
+        data-toggle-active-class="modal-wrapper--active"
+        data-turbo-temporary="true"
+      )
+        .modal-wrapper__backdrop data-action="click->toggle#off"
+        .modal data-testid="modal-content"
+          .modal__header
+            = yield :modal_header
+            = button_tag( icon('close'), class: 'btn btn--no-border btn--icon btn--pill', data: { action: "toggle#off" })
+
+          .modal__body
+            = yield
+
+          .modal__footer
+            = button_tag( 'Cancel', class: 'btn', type: 'button', data: { action: "toggle#off" })
+            = yield :modal_footer

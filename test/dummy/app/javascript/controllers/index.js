@@ -12,3 +12,6 @@ application.register("content", ContentController)
 
 import TodoController from "./todo_controller"
 application.register("todo", TodoController)
+
+import ToggleController from "./toggle_controller"
+application.register("toggle", ToggleController)

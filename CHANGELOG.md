@@ -1,10 +1,14 @@
 # Change Log
 
+## [v2.2.1] Feb 09, 2026
+
+- Package description & Keyword updates
+
 ## [v2.2.0] Nov 12, 2025
 
 - Add `inert` attribute management on Show & Hide.
 
-## [v2.1.1] Oct 31, 2024
+## [v2.1.1] Dec 31, 2024
 
 - Re-Add support for old versions of Turbo.
 
@@ -47,7 +51,7 @@
 - Custom ContentSlot support.
 - Add `data-confirm-button` default ContentSlot.
 
-
+[v2.2.1]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.2.1
 [v2.2.0]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.2.0
 [v2.1.1]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.1.1
 [v2.1.0]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.1.0

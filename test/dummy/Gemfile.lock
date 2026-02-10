@@ -1,9 +1,3 @@
-GIT
-  remote: https://github.com/RoleModel/rolemodel_rails.git
-  revision: e5f7009ff1437f6a62b6e3d8a255dc795fe53bd2
-  specs:
-    rolemodel_rails (0.7.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -271,7 +265,6 @@ DEPENDENCIES
   ostruct
   puma (>= 5.0)
   rails (~> 8.1)
-  rolemodel_rails!
   slim (~> 5.2)
   sprockets-rails
   sqlite3 (>= 2.1)
