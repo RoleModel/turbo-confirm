@@ -16,7 +16,6 @@ jobs:
         with:
           registry-url: 'https://registry.npmjs.org'
       - run: yarn install --immutable
-      - run: yarn build
       - run: npm publish --access public
 
   build-gph:
@@ -30,7 +29,6 @@ jobs:
         with:
           registry-url: https://npm.pkg.github.com/
       - run: yarn install --immutable
-      - run: yarn build
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
