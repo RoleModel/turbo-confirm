@@ -4,31 +4,27 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: read
+  id-token: write  # Required for OIDC
+
 jobs:
   build-npm:
-    permissions:
-      contents: read
-      id-token: write  # Required for OIDC
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           registry-url: 'https://registry.npmjs.org'
-      - run: yarn install --immutable
       - run: npm publish --access public
 
   build-gph:
-    permissions:
-      contents: read
-      packages: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           registry-url: https://npm.pkg.github.com/
-      - run: yarn install --immutable
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

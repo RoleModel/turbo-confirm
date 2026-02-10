@@ -1,6 +1,6 @@
 # Change Log
 
-## [v2.2.1] Feb 09, 2026
+## [v2.2.2] Feb 09, 2026
 
 - Package description & Keyword updates
 
