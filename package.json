@@ -1,7 +1,7 @@
 {
   "name": "@rolemodel/turbo-confirm",
   "type": "module",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "The easiest way to add custom confirmation dialog support to Rails apps.",
   "main": "src/index.js",
   "directories": {
