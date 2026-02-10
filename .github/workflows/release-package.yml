@@ -3,13 +3,13 @@ name: Release Package
 on:
   release:
     types: [published]
-  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write  # Required for OIDC
 
 jobs:
   build-npm:
-    permissions:
-      contents: read
-      id-token: write  # Required for OIDC
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,9 +20,6 @@ jobs:
       - run: npm publish --access public
 
   build-gph:
-    permissions:
-      contents: read
-      packages: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
