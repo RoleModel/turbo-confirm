@@ -1,13 +1,8 @@
 doctype html
 html data-theme-mode="light"
-  head
-    title Dummy
-    = csrf_meta_tags
-    = csp_meta_tag
-    = stylesheet_link_tag 'application', 'data-turbo-track': 'reload'
-    = javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true
-    meta name="viewport" content="width=device-width, initial-scale=1"
+  head = render 'head'
   body.app-body data-controller="confirm"
+    = turbo_frame_tag 'modal'
     .app__content
       - if content_for?(:confirm)
         = yield :confirm

@@ -2,7 +2,7 @@
   "name": "@rolemodel/turbo-confirm",
   "type": "module",
   "version": "2.2.0",
-  "description": "The easiest way to enable custom data-turbo-confirm dialogs in Rails.",
+  "description": "The easiest way to add custom confirmation dialog support to Rails apps.",
   "main": "src/index.js",
   "directories": {
     "lib": "src/lib"
@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "rake dummy:run",
     "test": "rake test",
-    "test:ui": "rake test_ui"
+    "test:ui": "rake test_ui",
+    "clean": "rake clean"
   },
   "repository": {
     "type": "git",

@@ -1,1 +1,3 @@
-= render 'form', todo: @todo, title: 'New Todo'
+= content_for :modal_header do
+  h2 New ToDo
+= render 'form', model: @todo

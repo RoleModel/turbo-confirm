@@ -1,4 +1,4 @@
-#confirm-todo.modal-wrapper
+#confirm-todo.modal-wrapper[inert]
   .modal-wrapper__backdrop
   .modal.text-center.margin-md data-testid="confirm-todo"
     h3#confirm-title
@@ -9,8 +9,13 @@
       button#todo-complete.btn.btn-delete
         | Done
 .flex.flex-col.gap-md
-  .page-title data-controller="content" data-action="rms:confirm-reject@document->content#rejected"
-    h1 data-testid="header" data-content-target="message" Todo Page
+  .flex.justify-between
+    .page-title(
+      data-controller="content"
+      data-action="rms:confirm-reject@document->content#rejected rms:confirm-accept@document->content#accepted"
+    )
+      h1 data-testid="header" data-content-target="message" Todo Page
+    = link_to 'Back', todos_path, class: 'btn-primary'
   .card-padded
     .flex.flex-col.gap-sm
       = @todo.title

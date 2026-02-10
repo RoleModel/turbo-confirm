@@ -1,17 +1,14 @@
--# locals: (todo:, title:)
-= form_with model: todo, class: 'card' do |f|
-  .card__header
-    h2.card_title
-      = title
+-# locals: (model:)
+
+= form_for model, class: 'card' do |f|
   .card__body
-      .form-row
-        .form-group
-          = f.label :title, class: 'form-label'
-          = f.text_field :title, class: 'form-control'
-      .form-row
-        .form-group
-          = f.label :body, class: 'form-label'
-          = f.text_area :body, class: 'form-control'
-  .card__footer.flex.justify-end.gap-lg
-    = link_to 'Cancel', todos_path, class: 'btn'
-    = f.submit 'Submit', class: 'btn-primary', data: { turbo_confirm: 'Create this?', confirm_button: 'again, yes..' }
+    .form-row
+      .form-group
+        = f.label :title, class: 'form-label'
+        = f.text_field :title, class: 'form-control'
+    .form-row
+      .form-group
+        = f.label :body, class: 'form-label'
+        = f.text_area :body, class: 'form-control'
+  = content_for :modal_footer do
+    = f.submit 'Submit', class: 'btn-primary', form: f.id, data: { turbo_confirm: 'Create this?', confirm_button: 'again, yes..' }

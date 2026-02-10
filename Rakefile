@@ -3,20 +3,23 @@ require 'open3'
 task default: :test
 
 desc 'Install dependencies & setup the dummy application'
-task :install do
+task install: 'dummy:setup' do
   sh 'yarn install'
   sh 'yarn playwright install --with-deps'
-  Rake::Task['dummy:setup'].invoke
 end
 
 desc 'Run Playwright tests'
 task test: :install do
-  sh 'yarn run playwright test --reporter=dot'
+  sh 'yarn playwright test'
 end
 
 desc 'Open the Playwright test runner app'
 task test_ui: :install do
-  sh 'yarn run playwright test --ui'
+  sh 'yarn playwright test --ui'
+end
+
+task clean: 'dummy:clean' do
+  sh 'rm -rf test-results playwright-report'
 end
 
 namespace :dummy do
@@ -24,6 +27,12 @@ namespace :dummy do
   task :setup do
     Dir.chdir('test/dummy') do
       sh 'bin/setup --skip-server'
+    end
+  end
+
+  task :clean do
+    Dir.chdir('test/dummy') do
+      sh 'bin/rails assets:clobber log:clear tmp:clear'
     end
   end
 

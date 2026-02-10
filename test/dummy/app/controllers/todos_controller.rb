@@ -1,5 +1,5 @@
 class TodosController < ApplicationController
-  before_action :set_todo, except: %i[index new create setup teardown]
+  before_action :set_todo, only: %i[show edit update destroy]
 
   def index
     @todos = Todo.order(:created_at)
@@ -7,6 +7,11 @@ class TodosController < ApplicationController
 
   def new
     @todo = Todo.new
+    render layout: 'modal'
+  end
+
+  def edit
+    render layout: 'modal'
   end
 
   def create
@@ -14,7 +19,7 @@ class TodosController < ApplicationController
     if @todo.save
       redirect_to todos_path, notice: 'Todo was successfully created.'
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content, layout: 'modal'
     end
   end
 
@@ -22,7 +27,7 @@ class TodosController < ApplicationController
     if @todo.update(todo_params)
       redirect_to todos_path, notice: 'Todo was successfully updated.'
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content, layout: 'modal'
     end
   end
 
