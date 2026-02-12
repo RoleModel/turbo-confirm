@@ -1,8 +1,10 @@
 # Change Log
 
-## [v2.2.2] Feb 09, 2026
+## [v2.2.3] Feb 12, 2026
 
-- Package description & Keyword updates
+- Update Package description & Keywords.
+- Update Embedded Test application to Rails v8.1.2 & Ruby v4.0
+- Migrate to Trusted publishing with OIDC, for NPM releases.
 
 ## [v2.2.0] Nov 12, 2025
 
@@ -51,7 +53,7 @@
 - Custom ContentSlot support.
 - Add `data-confirm-button` default ContentSlot.
 
-[v2.2.1]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.2.1
+[v2.2.3]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.2.3
 [v2.2.0]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.2.0
 [v2.1.1]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.1.1
 [v2.1.0]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.1.0
