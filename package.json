@@ -1,17 +1,17 @@
 {
   "name": "@rolemodel/turbo-confirm",
   "type": "module",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "The easiest way to add custom confirmation dialog support to Rails apps.",
   "main": "src/index.js",
   "directories": {
     "lib": "src/lib"
   },
   "scripts": {
+    "clean": "rake clean",
     "dev": "rake dummy:run",
     "test": "rake test",
-    "test:ui": "rake test_ui",
-    "clean": "rake clean"
+    "test:ui": "rake test_ui"
   },
   "repository": {
     "type": "git",
@@ -20,10 +20,12 @@
   "keywords": [
     "Rails",
     "Turbo",
-    "data-confirm",
+    "Native Dialog",
+    "Hotwired",
     "data-turbo-confirm",
-    "Dialog",
-    "Hotwired"
+    "data-confirm",
+    "Confirmation",
+    "confirm"
   ],
   "author": "RoleModel Software",
   "license": "MIT",
