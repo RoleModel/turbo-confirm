@@ -32,7 +32,7 @@ namespace :dummy do
 
   task :clean do
     Dir.chdir('test/dummy') do
-      sh 'bin/rails assets:clobber log:clear tmp:clear'
+      sh 'bin/rails assets:clobber log:clear tmp:clear db:reset'
     end
   end
 

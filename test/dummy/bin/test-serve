@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+require "fileutils"
+
+APP_ROOT = File.expand_path("..", __dir__)
+
+def system!(*args)
+  system(*args, exception: true)
+end
+
+FileUtils.chdir APP_ROOT do
+  puts "\n== Building Assets =="
+  system! "yarn build"
+  puts "\n== Starting Test Server =="
+  system! "RAILS_ENV=test bin/rails server -p 5500"
+end

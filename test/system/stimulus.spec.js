@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Stimulus Controller Integration', () => {
   test('non-submit button with div based confirm', async ({ page }) => {
-    await page.goto('/confirms/div')
+    await page.goto('/confirms/stimulus')
 
     const header = page.getByTestId('header')
     const button = page.getByRole('button', { name: 'Click Me' })

@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('direct invocation', () => {
   test ('with a message', async ({ page }) => {
-    await page.goto('/confirms/div')
+    await page.goto('/confirms/direct')
 
     const header = page.getByTestId('header')
     const dialog = page.getByTestId('confirm')
@@ -102,7 +102,7 @@ test.describe('direct invocation', () => {
   })
 
   test ('with content', async ({ page }) => {
-    await page.goto('/confirms/div')
+    await page.goto('/confirms/direct')
 
     const header = page.getByTestId('header')
     const dialog = page.getByTestId('confirm')

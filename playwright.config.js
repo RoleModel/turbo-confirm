@@ -90,7 +90,7 @@ const config = defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'PORT=5500 bin/dev',
+    command: 'bin/test-serve',
     url: 'http://127.0.0.1:5500',
     reuseExistingServer: !process.env.CI,
     cwd: './test/dummy'
