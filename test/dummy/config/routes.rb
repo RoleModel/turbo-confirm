@@ -4,7 +4,8 @@ Rails.application.routes.draw do
     delete :teardown, on: :collection # test teardown
   end
   resources :confirms, only: [] do
-    get :div, on: :collection # div/css based confirm
+    get :direct, on: :collection # div/css based confirm (for direct js use)
+    get :stimulus, on: :collection # div/css based confirm (with stimulus controller)
     get :dialog, on: :collection # dialog element based confirm
     get :custom, on: :collection # custom confirm
   end
