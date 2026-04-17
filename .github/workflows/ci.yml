@@ -46,9 +46,12 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-browsers-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
+      - name: Install Playwright OS dependencies
+        run: yarn playwright install-deps
+
       - name: Setup Playwright
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: yarn playwright install --with-deps
+        run: yarn playwright install chromium firefox webkit
 
       - name: Run Test Suite
         run: yarn playwright test
