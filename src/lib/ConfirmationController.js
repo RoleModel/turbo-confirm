@@ -3,6 +3,7 @@ import { TurboConfirmError } from './utils.js'
 export default class ConfirmationController {
   initialContent
   #resolve
+  #restoreTimeoutId
 
   constructor(delegate) {
     this.delegate = delegate
@@ -12,6 +13,7 @@ export default class ConfirmationController {
   }
 
   showConfirm(contentMap) {
+    clearTimeout(this.#restoreTimeoutId)
     this.#storeInitialContent()
 
     for(const [selector, content] of Object.entries(contentMap)) {
@@ -52,7 +54,7 @@ export default class ConfirmationController {
     this.delegate.hideConfirm(this.element)
     this.#teardownListeners()
 
-    setTimeout(this.#restoreInitialContent.bind(this), this.delegate.animationDuration)
+    this.#restoreTimeoutId = setTimeout(this.#restoreInitialContent.bind(this), this.delegate.animationDuration)
   }
 
   #setupListeners() {
@@ -68,6 +70,8 @@ export default class ConfirmationController {
   }
 
   #storeInitialContent() {
+    if (this.initialContent !== undefined) return
+
     try {
       this.initialContent = this.element.innerHTML
     } catch (error) {
@@ -85,5 +89,7 @@ export default class ConfirmationController {
        * error message will be thrown on the next go round (during #storeInitialContent).
        */
     }
+
+    this.initialContent = undefined
   }
 }

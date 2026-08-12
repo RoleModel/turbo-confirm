@@ -277,4 +277,78 @@ test.describe('direct invocation', () => {
       await expect(header).toContainText('Custom Confirm With Content')
     })
   })
+
+  test('re-triggering after being dismissed shows the new content', async ({ page }) => {
+    await page.goto('/confirms/div')
+    await page.clock.install()
+    await page.clock.pauseAt(new Date())
+
+    const dialog = page.getByTestId('confirm')
+    const dialogTitle = page.locator('#confirm-title')
+    const defaultContent = await dialog.textContent() || ''
+    const animationDuration = 300
+
+    page.evaluate(`
+      window.tc = new TurboConfirm({ animationDuration: ${animationDuration} })
+      window.tc.confirm('First Message')
+    `)
+
+    await expect(dialog).toBeVisible()
+    await expect(dialogTitle).toContainText('First Message')
+
+    await dialog.getByText('Cancel').click()
+
+    await expect(dialog).toBeHidden()
+
+    page.evaluate(`window.tc.confirm('Second Message')`)
+
+    await expect(dialog).toBeVisible()
+    await expect(dialogTitle).toContainText('Second Message')
+
+    // let the first confirm's pending content-restore timer fire while the
+    // re-triggered confirm is showing
+    await page.clock.runFor(animationDuration)
+
+    await expect(dialog).toBeVisible()
+    await expect(dialogTitle).toContainText('Second Message')
+    await expect(dialog).not.toContainText(defaultContent)
+
+    await dialog.getByText('Cancel').click()
+
+    await expect(dialog).toBeHidden()
+  })
+
+  test('dismissing after being re-triggered reverts to the original initial content', async ({ page }) => {
+    await page.goto('/confirms/div')
+    await page.clock.install()
+    await page.clock.pauseAt(new Date())
+
+    const dialog = page.getByTestId('confirm')
+    const defaultContent = await dialog.textContent() || ''
+    const animationDuration = 300
+
+    page.evaluate(`
+      window.tc = new TurboConfirm({ animationDuration: ${animationDuration} })
+      window.tc.confirm('First Message')
+    `)
+
+    await expect(dialog).toBeVisible()
+
+    await dialog.getByText('Cancel').click()
+
+    await expect(dialog).toBeHidden()
+
+    page.evaluate(`window.tc.confirm('Second Message')`)
+
+    await expect(dialog).toBeVisible()
+    await page.clock.runFor(animationDuration)
+
+    await dialog.getByText('Cancel').click()
+
+    await expect(dialog).toBeHidden()
+
+    await page.clock.runFor(animationDuration)
+
+    await expect(dialog).toContainText(defaultContent)
+  })
 })
