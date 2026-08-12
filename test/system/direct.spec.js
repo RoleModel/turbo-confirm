@@ -2,7 +2,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('direct invocation', () => {
-  test ('with a message', async ({ page }) => {
+  test('with a message', async ({ page }) => {
     await page.goto('/confirms/div')
 
     const header = page.getByTestId('header')
@@ -53,7 +53,7 @@ test.describe('direct invocation', () => {
     await expect(header).toContainText('Direct Confirm Accepted')
   })
 
-  test ('without a message', async ({ page }) => {
+  test('without a message', async ({ page }) => {
     await page.goto('/confirms/dialog')
 
     const header = page.getByTestId('header')
@@ -101,7 +101,7 @@ test.describe('direct invocation', () => {
     await expect(header).toContainText('Accepted No Message')
   })
 
-  test ('with content', async ({ page }) => {
+  test('with content', async ({ page }) => {
     await page.goto('/confirms/div')
 
     const header = page.getByTestId('header')
@@ -166,7 +166,7 @@ test.describe('direct invocation', () => {
   })
 
   test.describe('using custom config', () => {
-    test ('with or without a message', async ({ page }) => {
+    test('with or without a message', async ({ page }) => {
       await page.goto('/confirms/custom')
 
       const header = page.getByTestId('header')
@@ -236,7 +236,7 @@ test.describe('direct invocation', () => {
       await expect(header).toContainText('Custom Confirm Accepted')
     })
 
-    test ('with content', async ({ page }) => {
+    test('with content', async ({ page }) => {
       await page.goto('/confirms/custom')
 
       const header = page.getByTestId('header')
