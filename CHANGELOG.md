@@ -1,5 +1,9 @@
 # Change Log
 
+## [v2.2.4] Aug 18, 2026
+
+- resolve an E2E-test specific race condition
+
 ## [v2.2.3] Feb 12, 2026
 
 - Update Package description & Keywords.
@@ -53,6 +57,7 @@
 - Custom ContentSlot support.
 - Add `data-confirm-button` default ContentSlot.
 
+[v2.2.4]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.2.4
 [v2.2.3]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.2.3
 [v2.2.0]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.2.0
 [v2.1.1]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.1.1
