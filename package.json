@@ -34,8 +34,8 @@
   },
   "homepage": "https://github.com/RoleModel/turbo-confirm#readme",
   "devDependencies": {
-    "@playwright/test": "^1.58.2",
-    "@types/node": "^25.2.2"
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0"
   },
   "packageManager": "yarn@4.12.0"
 }
