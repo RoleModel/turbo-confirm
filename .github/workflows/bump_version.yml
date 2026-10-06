@@ -32,8 +32,8 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@v3
         with:
-          client-id: ${{ secrets.VERSION_MANAGER_CLIENT_ID }}
-          private-key: ${{ secrets.VERSION_MANAGER_PRIVATE_KEY }}
+          client-id: ${{ vars.RMS_VERSION_MANAGER_CLIENT_ID }}
+          private-key: ${{ secrets.RMS_VERSION_MANAGER_CERT }}
 
       - uses: actions/checkout@v7
         with:
