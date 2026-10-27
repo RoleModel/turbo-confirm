@@ -1,30 +1,47 @@
-name: Create GitHub Release
+name: Release
 
 on:
+  workflow_dispatch:
+    inputs:
+      bump-type:
+        type: choice
+        options: [patch, minor, major]
+        default: minor
+      changelog:
+        description: Changelog bullets (separate with $>). Leave blank to use the Unreleased notes or draft them from the commits.
+        type: string
   push:
-    tags:
-      - "v*"
+    tags: ['v*']
 
 permissions:
   contents: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'workflow_dispatch' && 'bump' || github.ref }}
 
 jobs:
   release:
+    uses: RoleModel/actions/.github/workflows/release.yml@v3
+    with:
+      bump-type: ${{ inputs.bump-type }}
+      changelog: ${{ inputs.changelog }}
+      publish-npm: true
+    secrets: inherit
+
+  publish-gph:
+    needs: release
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - name: Generate app token
-        id: app-token
-        uses: actions/create-github-app-token@v3
-        with:
-          client-id: ${{ vars.RMS_VERSION_MANAGER_CLIENT_ID }}
-          private-key: ${{ secrets.RMS_VERSION_MANAGER_CERT }}
-
       - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          token: ${{ steps.app-token.outputs.token }}
-
-      - name: Create GitHub release
-        run: gh release create "${{ github.ref_name }}" --verify-tag --generate-notes
+          registry-url: https://npm.pkg.github.com/
+      - run: npm publish --access public
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
