@@ -1,5 +1,10 @@
 # Change Log
 
+## [v2.2.6] Oct 27, 2026
+
+- Update Playwright & CI workflow (#96)
+- Adopt the shared RoleModel/actions release workflow (#125)
+
 ## [v2.2.5] Oct 6, 2026
 
 - Automate version bumps, GitHub releases, and package publishing
@@ -62,6 +67,7 @@
 - Custom ContentSlot support.
 - Add `data-confirm-button` default ContentSlot.
 
+[v2.2.6]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.2.6
 [v2.2.5]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.2.5
 [v2.2.4]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.2.4
 [v2.2.3]: https://github.com/RoleModel/turbo-confirm/releases/tag/v2.2.3
