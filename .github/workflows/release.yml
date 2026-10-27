@@ -1,0 +1,30 @@
+name: Create GitHub Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.RMS_VERSION_MANAGER_CLIENT_ID }}
+          private-key: ${{ secrets.RMS_VERSION_MANAGER_CERT }}
+
+      - uses: actions/checkout@v7
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Create GitHub release
+        run: gh release create "${{ github.ref_name }}" --verify-tag --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
